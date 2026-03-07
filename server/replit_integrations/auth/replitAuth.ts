@@ -34,7 +34,8 @@ export function getSession() {
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: true,
+      secure: "auto" as any,
+      sameSite: "lax",
       maxAge: sessionTtl,
     },
   });
@@ -103,19 +104,29 @@ export async function setupAuth(app: Express) {
   passport.deserializeUser((user: Express.User, cb) => cb(null, user));
 
   app.get("/api/login", (req, res, next) => {
-    ensureStrategy(req.hostname);
-    passport.authenticate(`replitauth:${req.hostname}`, {
+    const domain = req.hostname;
+    console.log(`[auth] Login initiated - hostname: ${domain}, callbackURL: https://${domain}/api/callback`);
+    ensureStrategy(domain);
+    passport.authenticate(`replitauth:${domain}`, {
       prompt: "login consent",
       scope: ["openid", "email", "profile", "offline_access"],
     })(req, res, next);
   });
 
   app.get("/api/callback", (req, res, next) => {
-    ensureStrategy(req.hostname);
-    passport.authenticate(`replitauth:${req.hostname}`, {
+    const domain = req.hostname;
+    console.log(`[auth] Callback received - hostname: ${domain}, query: ${JSON.stringify(req.query)}`);
+    ensureStrategy(domain);
+    passport.authenticate(`replitauth:${domain}`, {
       successReturnToOrRedirect: "/",
       failureRedirect: "/api/login",
-    })(req, res, next);
+    })(req, res, (err: any) => {
+      if (err) {
+        console.error(`[auth] Callback error:`, err);
+        return res.redirect("/api/login");
+      }
+      next();
+    });
   });
 
   app.get("/api/logout", (req, res) => {
