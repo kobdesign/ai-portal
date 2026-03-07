@@ -9,18 +9,17 @@ import Login from "@/pages/Login";
 import NotFound from "@/pages/not-found";
 import { ExecutiveDashboard } from "@/pages/ExecutiveDashboard";
 import GlobalTopology from "@/pages/GlobalTopology";
-import { AuthProvider, useAuth } from "@/hooks/use-auth";
+import { useAuth } from "@/hooks/use-auth";
 import { useEffect } from "react";
 
 function ProtectedRoute({ component: Component, ...rest }: any) {
-  const [, setLocation] = useLocation();
-  const { user, isLoading } = useAuth();
+  const { user, isLoading, isAuthenticated } = useAuth();
 
   useEffect(() => {
-    if (!isLoading && !user) {
-      setLocation("/login");
+    if (!isLoading && !isAuthenticated) {
+      window.location.href = "/api/login";
     }
-  }, [user, isLoading, setLocation]);
+  }, [isAuthenticated, isLoading]);
 
   if (isLoading) {
     return (
@@ -30,16 +29,29 @@ function ProtectedRoute({ component: Component, ...rest }: any) {
     );
   }
 
-  if (!user) return null;
+  if (!isAuthenticated) return null;
 
   return <Component {...rest} />;
 }
 
 function Router() {
+  const { isAuthenticated, isLoading } = useAuth();
+
   return (
     <Switch>
-      <Route path="/login" component={Login} />
-      <Route path="/" component={() => <ProtectedRoute component={Dashboard} />} />
+      <Route path="/login">
+        {isAuthenticated ? <Dashboard /> : <Login />}
+      </Route>
+      <Route path="/" component={() => {
+        if (isLoading) {
+          return (
+            <div className="min-h-screen bg-[#111113] flex items-center justify-center">
+              <div className="w-8 h-8 border-2 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin"></div>
+            </div>
+          );
+        }
+        return isAuthenticated ? <Dashboard /> : <Login />;
+      }} />
       <Route path="/executive" component={() => <ProtectedRoute component={ExecutiveDashboard} />} />
       <Route path="/topology" component={() => <ProtectedRoute component={GlobalTopology} />} />
       <Route path="/editor/:id" component={() => <ProtectedRoute component={Home} />} />
@@ -51,12 +63,10 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
-      </AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Router />
+      </TooltipProvider>
     </QueryClientProvider>
   );
 }

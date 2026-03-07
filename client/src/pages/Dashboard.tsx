@@ -4,7 +4,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { FolderKanban, Plus, Search, Layers, Clock, ArrowRight, Activity, Smartphone, Server, FileCode2, LogOut, UserCircle, Building2, Trash2 } from "lucide-react";
+import { Plus, Search, Layers, Clock, Smartphone, Server, FileCode2, LogOut, Building2, Trash2 } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -36,6 +36,13 @@ function formatTimeAgo(date: string | Date) {
   if (diffHrs < 24) return `${diffHrs} hr ago`;
   if (diffDays < 7) return `${diffDays} days ago`;
   return d.toLocaleDateString("th-TH");
+}
+
+function getUserDisplayName(user: any) {
+  if (user?.firstName && user?.lastName) return `${user.firstName} ${user.lastName}`;
+  if (user?.firstName) return user.firstName;
+  if (user?.email) return user.email;
+  return "Developer";
 }
 
 export default function Dashboard() {
@@ -90,9 +97,21 @@ export default function Dashboard() {
     <div className="min-h-screen bg-[#111113] text-slate-200 p-8 flex justify-center">
       <div className="max-w-6xl w-full">
         <div className="flex justify-between items-end mb-12">
-          <div>
-            <h1 data-testid="text-welcome" className="text-3xl font-bold text-white mb-2 tracking-tight">Welcome back, {user?.username}</h1>
-            <p className="text-slate-400 text-sm">Select a project to continue building or start something new.</p>
+          <div className="flex items-center gap-4">
+            {user?.profileImageUrl && (
+              <img 
+                src={user.profileImageUrl} 
+                alt="Profile" 
+                className="w-12 h-12 rounded-full border-2 border-indigo-500/30"
+                data-testid="img-avatar"
+              />
+            )}
+            <div>
+              <h1 data-testid="text-welcome" className="text-3xl font-bold text-white mb-2 tracking-tight">
+                Welcome back, {getUserDisplayName(user)}
+              </h1>
+              <p className="text-slate-400 text-sm">Select a project to continue building or start something new.</p>
+            </div>
           </div>
           <div className="flex items-center gap-4">
             <Button 
@@ -104,15 +123,15 @@ export default function Dashboard() {
               <Building2 size={16} className="mr-2" />
               C-Level Dashboard
             </Button>
-            <Button 
-              variant="outline"
-              data-testid="button-logout"
-              className="bg-transparent border-[#27272a] text-slate-300 hover:text-white hover:bg-white/5"
-              onClick={logout}
-            >
-              <LogOut size={16} className="mr-2" />
-              Sign Out
-            </Button>
+            <a href="/api/logout" data-testid="button-logout">
+              <Button 
+                variant="outline"
+                className="bg-transparent border-[#27272a] text-slate-300 hover:text-white hover:bg-white/5"
+              >
+                <LogOut size={16} className="mr-2" />
+                Sign Out
+              </Button>
+            </a>
             <Button 
               data-testid="button-create-project"
               className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-full px-6 shadow-[0_0_20px_rgba(79,70,229,0.3)]"

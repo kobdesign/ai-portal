@@ -1,35 +1,17 @@
-import { type User, type InsertUser, type Project, type InsertProject, users, projects } from "@shared/schema";
+import { type Project, type InsertProject, projects } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 
 export interface IStorage {
-  getUser(id: number): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
-  getProjectsByUserId(userId: number): Promise<Project[]>;
+  getProjectsByUserId(userId: string): Promise<Project[]>;
   getProject(id: number): Promise<Project | undefined>;
-  createProject(project: InsertProject, userId: number): Promise<Project>;
+  createProject(project: InsertProject, userId: string): Promise<Project>;
   updateProject(id: number, data: Partial<InsertProject>): Promise<Project | undefined>;
   deleteProject(id: number): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
-  async getUser(id: number): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
-    return user;
-  }
-
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.username, username));
-    return user;
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const [user] = await db.insert(users).values(insertUser).returning();
-    return user;
-  }
-
-  async getProjectsByUserId(userId: number): Promise<Project[]> {
+  async getProjectsByUserId(userId: string): Promise<Project[]> {
     return db.select().from(projects).where(eq(projects.userId, userId));
   }
 
@@ -38,7 +20,7 @@ export class DatabaseStorage implements IStorage {
     return project;
   }
 
-  async createProject(project: InsertProject, userId: number): Promise<Project> {
+  async createProject(project: InsertProject, userId: string): Promise<Project> {
     const [created] = await db.insert(projects).values({ ...project, userId }).returning();
     return created;
   }

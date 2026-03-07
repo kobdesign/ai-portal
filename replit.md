@@ -7,31 +7,36 @@ An enterprise AI development workspace that helps organizations manage the softw
 - **Frontend**: React + Vite + TailwindCSS + shadcn/ui
 - **Backend**: Express.js + TypeScript
 - **Database**: PostgreSQL with Drizzle ORM
-- **Auth**: Passport.js with session-based authentication (connect-pg-simple for session store)
+- **Auth**: Replit Auth (OpenID Connect) - supports Google, GitHub, Apple, X, email/password
 - **Routing**: wouter (frontend), Express (backend)
 - **State Management**: TanStack React Query
 
 ## Key Files
-- `shared/schema.ts` - Database schema (users, projects)
+- `shared/schema.ts` - Database schema (re-exports auth models, defines projects)
+- `shared/models/auth.ts` - Auth schema (users, sessions tables - DO NOT MODIFY)
 - `server/db.ts` - Database connection (Drizzle + pg pool)
-- `server/auth.ts` - Authentication setup (Passport local strategy, session management)
-- `server/routes.ts` - API routes (projects CRUD)
+- `server/replit_integrations/auth/` - Replit Auth module (DO NOT MODIFY)
+- `server/routes.ts` - API routes (projects CRUD + auth wiring)
 - `server/storage.ts` - Storage interface (DatabaseStorage with Drizzle)
-- `client/src/hooks/use-auth.tsx` - Auth context provider & hook
-- `client/src/App.tsx` - Main app with AuthProvider and protected routes
+- `client/src/hooks/use-auth.ts` - Auth hook (provided by Replit Auth)
+- `client/src/lib/auth-utils.ts` - Auth utility functions
+- `client/src/App.tsx` - Main app with routing and auth protection
 
 ## Pages
-- `/login` - Login/Register page
-- `/` - Dashboard (project listing with CRUD)
-- `/executive` - Executive C-Level metrics dashboard
-- `/topology` - Global enterprise topology visualization
-- `/editor/:id` - Project editor/workspace
+- `/` - Landing/Login page (unauthenticated) or Dashboard (authenticated)
+- `/login` - Landing page with sign-in button
+- `/executive` - Executive C-Level metrics dashboard (protected)
+- `/topology` - Global enterprise topology visualization (protected)
+- `/editor/:id` - Project editor/workspace (protected)
 
 ## API Endpoints
-- `POST /api/register` - User registration
-- `POST /api/login` - User login
-- `POST /api/logout` - User logout
-- `GET /api/user` - Get current user
+### Auth (Replit Auth - DO NOT MODIFY)
+- `GET /api/login` - Begin login flow (redirects to Replit OIDC)
+- `GET /api/callback` - OIDC callback
+- `GET /api/logout` - Logout and end session
+- `GET /api/auth/user` - Get current authenticated user
+
+### Projects
 - `GET /api/projects` - List user's projects
 - `GET /api/projects/:id` - Get single project
 - `POST /api/projects` - Create project
@@ -39,6 +44,6 @@ An enterprise AI development workspace that helps organizations manage the softw
 - `DELETE /api/projects/:id` - Delete project
 
 ## Database Tables
-- `users` - id (serial PK), username, password
-- `projects` - id (serial PK), name, description, type, status, user_id, created_at, updated_at
-- `session` - auto-created by connect-pg-simple for session storage
+- `users` - id (varchar PK), email, first_name, last_name, profile_image_url, created_at, updated_at (managed by Replit Auth)
+- `sessions` - sid (varchar PK), sess (jsonb), expire (managed by Replit Auth)
+- `projects` - id (serial PK), name, description, type, status, user_id (varchar), created_at, updated_at
