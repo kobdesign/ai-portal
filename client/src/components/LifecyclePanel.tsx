@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Plus, Check, Play, Settings, RefreshCw, Archive, FolderKanban, Lightbulb, FileText, CheckSquare, PencilRuler, Code2, Beaker, CheckCircle2 } from "lucide-react";
+import { Plus, Check, Play, Settings, RefreshCw, Archive, FolderKanban, Lightbulb, FileText, CheckSquare, PencilRuler, Code2, Beaker, CheckCircle2, ChevronDown, ChevronUp } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 export function LifecyclePanel() {
+  const [expandedFeature, setExpandedFeature] = useState<string | null>("FEAT-1");
+
   const steps = [
     { id: "explore", name: "Explore", icon: <Lightbulb size={12} /> },
     { id: "proposal", name: "Proposal", icon: <FileText size={12} /> },
@@ -119,7 +122,7 @@ export function LifecyclePanel() {
             {features.filter(f => f.status === 'active').map(feature => (
               <div key={feature.id} className={`bg-[#18181b] border rounded-xl p-4 transition-all ${feature.id === 'FEAT-1' ? 'border-purple-500/50 shadow-[0_0_15px_rgba(168,85,247,0.1)]' : 'border-border/40 hover:border-purple-500/30'}`}>
                 <div className="flex justify-between items-start mb-4">
-                  <div>
+                  <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-[10px] font-bold text-muted-foreground bg-muted/50 px-1.5 py-0.5 rounded">{feature.id}</span>
                       <h4 className="text-sm font-medium text-foreground">{feature.name}</h4>
@@ -138,13 +141,91 @@ export function LifecyclePanel() {
                       </div>
                     </div>
                   </div>
-                  <Button size="sm" className="h-7 text-[11px] bg-purple-600 hover:bg-purple-700">
-                    <Play size={12} className="mr-1" /> Continue in Chat
-                  </Button>
+                  <div className="flex items-center gap-2">
+                    <Button size="sm" className="h-7 text-[11px] bg-purple-600 hover:bg-purple-700">
+                      <Play size={12} className="mr-1" /> Chat
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-7 w-7 text-muted-foreground hover:text-foreground"
+                      onClick={() => setExpandedFeature(expandedFeature === feature.id ? null : feature.id)}
+                    >
+                      {expandedFeature === feature.id ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                    </Button>
+                  </div>
                 </div>
 
                 {renderStepper(feature.currentStep)}
                 <div className="mt-8"></div> {/* Spacing for labels */}
+
+                {/* Expanded Feature Details */}
+                {expandedFeature === feature.id && (
+                  <div className="mt-4 pt-4 border-t border-border/40 animate-in slide-in-from-top-2 duration-200">
+                    <div className="grid grid-cols-2 gap-4">
+                      {/* Left: Proposal & Specs */}
+                      <div className="space-y-3">
+                        <div className="bg-[#111113] p-3 rounded-lg border border-border/40">
+                          <h5 className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1 mb-2">
+                            <FileText size={12} /> Proposal Context
+                          </h5>
+                          <p className="text-[11px] text-slate-300 leading-relaxed mb-2">
+                            เชื่อมต่อระบบยืนยันตัวตนกับ Azure AD ของบริษัท เพื่อให้พนักงานใช้ Login เดียวเข้าถึงทุกแอปพลิเคชันภายใน
+                          </p>
+                          <a href="#" className="text-[10px] text-indigo-400 hover:underline flex items-center gap-1">
+                            <Lightbulb size={10} /> View full proposal document
+                          </a>
+                        </div>
+                        
+                        <div className="bg-[#111113] p-3 rounded-lg border border-border/40">
+                          <h5 className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1 mb-2">
+                            <PencilRuler size={12} /> Design Specs
+                          </h5>
+                          <div className="flex gap-2">
+                            <div className="w-12 h-12 bg-slate-800 rounded border border-slate-700 flex flex-col items-center justify-center">
+                              <span className="text-[8px] text-slate-400">Login UI</span>
+                            </div>
+                            <div className="w-12 h-12 bg-slate-800 rounded border border-slate-700 flex flex-col items-center justify-center">
+                              <span className="text-[8px] text-slate-400">SSO Flow</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Right: Tasks List */}
+                      <div className="bg-[#111113] p-3 rounded-lg border border-border/40">
+                        <h5 className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center justify-between mb-3">
+                          <span className="flex items-center gap-1"><CheckSquare size={12} /> Implementation Tasks</span>
+                          <span className="text-purple-400">5/8</span>
+                        </h5>
+                        <div className="space-y-2">
+                          <div className="flex items-start gap-2 text-[11px]">
+                            <CheckCircle2 size={12} className="text-emerald-500 shrink-0 mt-0.5" />
+                            <span className="text-slate-400 line-through">Setup MSAL React library</span>
+                          </div>
+                          <div className="flex items-start gap-2 text-[11px]">
+                            <CheckCircle2 size={12} className="text-emerald-500 shrink-0 mt-0.5" />
+                            <span className="text-slate-400 line-through">Configure Azure AD app registration</span>
+                          </div>
+                          <div className="flex items-start gap-2 text-[11px]">
+                            <div className="w-3 h-3 rounded-full border border-purple-500 flex items-center justify-center shrink-0 mt-0.5">
+                              <div className="w-1.5 h-1.5 bg-purple-500 rounded-full"></div>
+                            </div>
+                            <span className="text-slate-200">Build Login UI component</span>
+                          </div>
+                          <div className="flex items-start gap-2 text-[11px]">
+                            <div className="w-3 h-3 rounded-full border border-slate-600 shrink-0 mt-0.5"></div>
+                            <span className="text-slate-400">Implement Token Refresh logic</span>
+                          </div>
+                          <div className="flex items-start gap-2 text-[11px]">
+                            <div className="w-3 h-3 rounded-full border border-slate-600 shrink-0 mt-0.5"></div>
+                            <span className="text-slate-400">Add Route Guards</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
