@@ -93,6 +93,13 @@
 - ให้ AI เขียน Logic ดึงข้อมูลจากฐานข้อมูลเก่าอย่างปลอดภัย (ผ่าน Security Rules ที่ตั้งไว้)
 - สร้างระบบ **API Gateway Control** (จำลอง): แจก API Key, ตั้ง Rate Limit, และออกเอกสาร API Doc (Developer Portal) ให้อัตโนมัติ
 
+### 4.3 Multi-Platform & Mobile App Development (Flutter Native)
+- แพลตฟอร์มนี้ไม่ได้จำกัดแค่การสร้าง Web Application แต่รองรับการพัฒนา Mobile App ด้วย **Flutter**
+- **Mobile Emulator Preview:** ในหน้าจอ PreviewPanel (ฝั่งขวา) จะมีโหมด "Device Preview" จำลองหน้าจอ iOS และ Android เพื่อดูผลลัพธ์ของ Flutter Code (Dart) แบบ Live Reload (อิงจาก Flutter Web / Zapp.run)
+- **Native Integration Specs:** 
+  - AI จะถูกเทรนให้เขียนโค้ดเชื่อมต่อ Native Device Features เช่น กล้อง, GPS, Push Notifications (Firebase), หรือ Biometric Login ให้สอดคล้องกับมาตรฐาน Enterprise Security
+- **Cross-Platform Deployment:** ปุ่ม One-Click Deploy จะรองรับการสั่งรัน CI/CD Pipeline ไปยัง App Store Connect และ Google Play Console (หรือกระจายแอปใน Internal MDM ขององค์กร)
+
 ---
 
 ## 5. Development Guidelines (สำหรับผู้ใช้ Claude Code)

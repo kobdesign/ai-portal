@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Code, MonitorPlay, RefreshCw, Maximize2, TerminalSquare, ExternalLink, Rocket, Info, X, Sparkles, ChevronDown, Server, Box, Cloud, ShieldCheck } from "lucide-react";
+import { Code, MonitorPlay, RefreshCw, Maximize2, TerminalSquare, ExternalLink, Rocket, Info, X, Sparkles, ChevronDown, Server, Box, Cloud, ShieldCheck, Smartphone } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 
@@ -12,6 +12,7 @@ interface PreviewPanelProps {
 export function PreviewPanel({ activeTab, onTabChange }: PreviewPanelProps) {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [showTerminal, setShowTerminal] = useState(true);
+  const [previewMode, setPreviewMode] = useState<"web" | "mobile">("web");
 
   const handleRefresh = () => {
     setIsRefreshing(true);
@@ -84,17 +85,37 @@ export default function CustomerDashboard() {
         {/* Browser URL bar & Actions */}
         <div className="flex items-center gap-3">
           {activeTab === "preview" && (
-            <div className="flex items-center w-80 max-w-md bg-black/40 rounded-lg border border-white/5 overflow-hidden">
-              <div className="px-3 py-1.5 bg-black/20 text-slate-500 border-r border-white/5 flex items-center justify-center">
-                <RefreshCw size={12} className={`cursor-pointer hover:text-slate-300 ${isRefreshing ? 'animate-spin' : ''}`} onClick={handleRefresh} />
+            <>
+              {/* Mobile/Web Toggle */}
+              <div className="flex items-center bg-black/40 rounded-lg p-0.5 border border-white/5 mr-2">
+                <button
+                  onClick={() => setPreviewMode("web")}
+                  className={`p-1.5 rounded transition-colors ${previewMode === "web" ? "bg-[#27272a] text-white" : "text-slate-400 hover:text-slate-200"}`}
+                  title="Web Preview"
+                >
+                  <MonitorPlay size={14} />
+                </button>
+                <button
+                  onClick={() => setPreviewMode("mobile")}
+                  className={`p-1.5 rounded transition-colors ${previewMode === "mobile" ? "bg-[#27272a] text-white" : "text-slate-400 hover:text-slate-200"}`}
+                  title="Mobile App Preview (Flutter)"
+                >
+                  <Smartphone size={14} />
+                </button>
               </div>
-              <div className="px-3 py-1 text-xs text-slate-400 font-mono flex-1">
-                localhost:5000
+
+              <div className="flex items-center w-80 max-w-md bg-black/40 rounded-lg border border-white/5 overflow-hidden">
+                <div className="px-3 py-1.5 bg-black/20 text-slate-500 border-r border-white/5 flex items-center justify-center">
+                  <RefreshCw size={12} className={`cursor-pointer hover:text-slate-300 ${isRefreshing ? 'animate-spin' : ''}`} onClick={handleRefresh} />
+                </div>
+                <div className="px-3 py-1 text-xs text-slate-400 font-mono flex-1">
+                  localhost:5000
+                </div>
+                <a href="#" className="px-3 py-1.5 text-slate-500 hover:text-slate-300 hover:bg-white/5">
+                  <ExternalLink size={12} />
+                </a>
               </div>
-              <a href="#" className="px-3 py-1.5 text-slate-500 hover:text-slate-300 hover:bg-white/5">
-                <ExternalLink size={12} />
-              </a>
-            </div>
+            </>
           )}
           
           <div className="flex items-center gap-2 border-l border-white/10 pl-3">
@@ -130,17 +151,68 @@ export default function CustomerDashboard() {
       {/* Main Content Area */}
       <div className="flex-1 relative overflow-hidden flex flex-col">
         {activeTab === "preview" ? (
-          <div className="flex-1 bg-white relative">
-            {/* Mock Iframe Content */}
-            <div className="w-full h-full flex items-center justify-center bg-slate-50">
-               <div className="text-center">
-                  <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4 ring-8 ring-indigo-50">
-                    <MonitorPlay size={32} />
+          <div className="flex-1 bg-[#f8fafc] relative flex items-center justify-center overflow-auto">
+            {previewMode === "web" ? (
+              /* Web Preview */
+              <div className="w-full h-full flex items-center justify-center">
+                 <div className="text-center">
+                    <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4 ring-8 ring-indigo-50">
+                      <MonitorPlay size={32} />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">Enterprise Web App Preview</h3>
+                    <p className="text-sm text-slate-500 mb-6">Secured view simulating internal corporate network.</p>
+                 </div>
+              </div>
+            ) : (
+              /* Mobile Preview (Flutter) */
+              <div className="w-full h-full flex items-center justify-center bg-[#e2e8f0] p-4">
+                <div className="relative w-[320px] h-[650px] bg-black rounded-[40px] shadow-2xl border-[8px] border-slate-800 overflow-hidden flex flex-col">
+                  {/* Notch / Status Bar */}
+                  <div className="absolute top-0 inset-x-0 h-6 bg-black z-20 flex justify-center">
+                    <div className="w-24 h-4 bg-black rounded-b-xl"></div>
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-2">Enterprise App Preview</h3>
-                  <p className="text-sm text-slate-500 mb-6">Secured view simulating internal corporate network.</p>
-               </div>
-            </div>
+                  
+                  {/* Flutter App Mockup */}
+                  <div className="flex-1 bg-white pt-8 flex flex-col relative z-10">
+                    <div className="bg-indigo-600 text-white px-4 py-3 flex items-center shadow-md">
+                      <div className="font-semibold text-lg">Corporate App</div>
+                    </div>
+                    <div className="flex-1 p-4 bg-slate-50 flex flex-col items-center justify-center text-center">
+                      <div className="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mb-4 text-blue-500">
+                        <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                      </div>
+                      <h4 className="font-bold text-slate-800 mb-1">Flutter Mobile Build</h4>
+                      <p className="text-xs text-slate-500 mb-4 px-4">Live reloading Dart code directly to device emulator.</p>
+                      
+                      <div className="w-full space-y-2 mt-4">
+                        <div className="h-10 bg-white border border-slate-200 rounded-lg flex items-center px-3 shadow-sm">
+                          <div className="w-4 h-4 rounded-full bg-indigo-100 mr-3"></div>
+                          <div className="h-2 w-24 bg-slate-200 rounded"></div>
+                        </div>
+                        <div className="h-10 bg-white border border-slate-200 rounded-lg flex items-center px-3 shadow-sm">
+                          <div className="w-4 h-4 rounded-full bg-emerald-100 mr-3"></div>
+                          <div className="h-2 w-32 bg-slate-200 rounded"></div>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Native Nav Bar Mockup */}
+                    <div className="h-12 bg-white border-t border-slate-200 flex justify-around items-center px-4 pb-1">
+                      <div className="w-6 h-6 rounded bg-indigo-600"></div>
+                      <div className="w-6 h-6 rounded bg-slate-200"></div>
+                      <div className="w-6 h-6 rounded bg-slate-200"></div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Flutter Controls Overlay */}
+                <div className="absolute bottom-6 right-6 flex flex-col gap-2">
+                  <div className="bg-white/90 backdrop-blur text-slate-800 text-[10px] font-medium px-3 py-1.5 rounded-full shadow-lg border border-slate-200 flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Hot Reload Active
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           <div className="flex-1 flex flex-col bg-[#111113]">
