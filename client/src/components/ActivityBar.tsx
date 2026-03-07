@@ -1,4 +1,4 @@
-import { MessageSquare, FolderCode, Blocks, Settings, Zap, ShieldCheck, DatabaseZap, GitMerge, BookOpen, UserCheck, FileJson2, IterationCcw, Rocket } from "lucide-react";
+import { MessageSquare, FolderCode, Blocks, Settings, Zap, ShieldCheck, DatabaseZap, GitMerge, BookOpen, UserCheck, FileJson2, IterationCcw, Rocket, Network } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { SidebarTab } from "@/pages/Home";
 
@@ -12,6 +12,7 @@ export function ActivityBar({ active, onChange }: ActivityBarProps) {
     { id: "agent", icon: MessageSquare, label: "Enterprise AI Agent" },
     { id: "lifecycle", icon: IterationCcw, label: "Project Lifecycle (Ideate to Deploy)" },
     { id: "spec", icon: FileJson2, label: "Spec-Driven Development (OpenSpec)" },
+    { id: "topology", icon: Network, label: "Enterprise Topology & Impact Map" },
     { id: "deploy", icon: Rocket, label: "Enterprise Deployment (CI/CD)" },
     { id: "files", icon: FolderCode, label: "Project Explorer" },
     { id: "repo", icon: GitMerge, label: "Code Repository & Legacy Sync" },
