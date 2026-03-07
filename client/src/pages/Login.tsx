@@ -23,14 +23,14 @@ export default function Login() {
               <p className="text-sm text-slate-400">Sign in with your account to access the workspace</p>
             </div>
 
-            <a href="/api/login" data-testid="button-login">
-              <Button 
-                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white h-11 font-medium transition-all shadow-[0_0_20px_rgba(79,70,229,0.2)]"
-              >
-                <Lock size={16} className="mr-2" />
-                Sign In to Workspace
-              </Button>
-            </a>
+            <Button 
+              data-testid="button-login"
+              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white h-11 font-medium transition-all shadow-[0_0_20px_rgba(79,70,229,0.2)]"
+              onClick={() => { window.location.href = "/api/login"; }}
+            >
+              <Lock size={16} className="mr-2" />
+              Sign In to Workspace
+            </Button>
 
             <div className="relative flex items-center justify-center py-2">
               <div className="absolute inset-0 flex items-center">

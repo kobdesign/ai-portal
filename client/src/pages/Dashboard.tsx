@@ -123,15 +123,15 @@ export default function Dashboard() {
               <Building2 size={16} className="mr-2" />
               C-Level Dashboard
             </Button>
-            <a href="/api/logout" data-testid="button-logout">
-              <Button 
-                variant="outline"
-                className="bg-transparent border-[#27272a] text-slate-300 hover:text-white hover:bg-white/5"
-              >
+            <Button 
+              variant="outline"
+              data-testid="button-logout"
+              className="bg-transparent border-[#27272a] text-slate-300 hover:text-white hover:bg-white/5"
+              onClick={() => { window.location.href = "/api/logout"; }}
+            >
                 <LogOut size={16} className="mr-2" />
                 Sign Out
               </Button>
-            </a>
             <Button 
               data-testid="button-create-project"
               className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-full px-6 shadow-[0_0_20px_rgba(79,70,229,0.3)]"
