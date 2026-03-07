@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUp, Sparkles, Loader2, StopCircle, ChevronDown, Paperclip, Code2, GitMerge, FileArchive } from "lucide-react";
+import { ArrowUp, Sparkles, Loader2, StopCircle, ChevronDown, Paperclip, Code2, GitMerge, FileJson2 } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 interface Message {
@@ -19,7 +19,7 @@ export function ChatPanel() {
     {
       id: "1",
       role: "assistant",
-      content: "สวัสดีครับ! ผมคือ Enterprise AI Agent สำหรับองค์กรไทย \n\nผมสามารถช่วยคุณ:\n• ซิงค์โค้ดกับ Internal GitLab หรืออัปโหลดโค้ดระบบเก่าให้ผมวิเคราะห์\n• แปลงระบบ Legacy (AS/400, Java เก่า) เป็น Modern Stack\n• สร้าง Dashboard เชื่อมต่อ On-Premise Database\n\nวันนี้มีโปรเจกต์อะไรให้ผมช่วยทำครับ?",
+      content: "สวัสดีครับ! ผมคือ Enterprise AI Agent สำหรับองค์กรไทย \n\nจุดเด่นของเราคือการทำ Spec-Driven Development คุณสามารถอัปโหลดไฟล์ OpenAPI / Swagger เข้ามา เพื่อให้ผมวิเคราะห์และสร้างโค้ดส่วน Frontend ให้แบบ 100% ครบทั้ง API Client, Type Safety (Zod), และฟอร์มต่างๆ แบบลด Human Error\n\nจะให้ผมสร้างโปรเจกต์จาก Spec หรือเริ่มจากศูนย์ดีครับ?",
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
@@ -55,7 +55,7 @@ export function ChatPanel() {
       setMessages(prev => [...prev, {
         id: generatingId,
         role: "assistant",
-        content: "กำลังเชื่อมต่อกับ Internal GitLab และดึง Source Code มารีวิวโครงสร้าง...",
+        content: "กำลังอ่าน OpenAPI Specification (swagger.yaml) และวิเคราะห์ Schema โครงสร้างข้อมูลทั้งหมด...",
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         isGenerating: true
       }]);
@@ -63,11 +63,11 @@ export function ChatPanel() {
       setTimeout(() => {
         setMessages(prev => prev.map(msg => 
           msg.id === generatingId 
-            ? { ...msg, isGenerating: false, content: "ผมได้ดึงโค้ดจาก Internal Repo เรียบร้อยแล้วครับ! และได้วิเคราะห์ระบบเก่า (Legacy PHP) พบว่าสามารถทำ API Gateway คั่นกลางเพื่อค่อยๆ เปลี่ยนผ่าน (Strangler Fig Pattern) ไปเป็น React ได้เลย \n\nผมได้สร้างโครงสร้างโปรเจกต์ใหม่และเชื่อมต่อให้ดูใน Preview แล้วครับ ให้ผมดำเนินการ Migrate หน้าไหนต่อดีครับ?" }
+            ? { ...msg, isGenerating: false, content: "อ้างอิงจาก Spec ของ Core Banking API ที่แนบมา ผมได้ทำการ:\n1. สร้าง Zod Schemas สำหรับ Validation ข้อมูลลูกค้า 12 ชุด\n2. เขียน React Query hooks สำหรับเรียกใช้ endpoints ทั้งหมด\n3. สร้างหน้า Customer Dashboard และฟอร์มแก้ไขข้อมูลที่ผูก Type ถูกต้อง 100% เรียบร้อยครับ\n\nลองทดสอบ Form Validation ในหน้า Preview ได้เลยครับ ระบบพร้อมใช้งานแล้ว!" }
             : msg
         ));
         setIsGenerating(false);
-      }, 3500);
+      }, 4000);
     }, 500);
   };
 
@@ -97,9 +97,9 @@ export function ChatPanel() {
         </DropdownMenu>
 
         <div className="flex items-center gap-2">
-          <Badge variant="outline" className="bg-orange-500/10 text-orange-400 border-orange-500/20 cursor-pointer">
-            <GitMerge size={12} className="mr-1" />
-            GitLab Connected
+          <Badge variant="outline" className="bg-sky-500/10 text-sky-400 border-sky-500/20 cursor-pointer">
+            <FileJson2 size={12} className="mr-1" />
+            OpenAPI Synced
           </Badge>
         </div>
       </div>
@@ -123,8 +123,8 @@ export function ChatPanel() {
                 </div>
                 {msg.isGenerating && (
                   <div className="flex items-center gap-2 mt-3 text-muted-foreground bg-muted/20 p-2 rounded-lg border border-border/20">
-                    <Loader2 size={14} className="animate-spin text-indigo-400" />
-                    <span className="text-xs font-medium">กำลังประมวลผลโค้ด...</span>
+                    <Loader2 size={14} className="animate-spin text-sky-400" />
+                    <span className="text-xs font-medium">กำลังทำ Spec-Driven Generation...</span>
                   </div>
                 )}
               </div>
@@ -138,40 +138,33 @@ export function ChatPanel() {
 
       <div className="p-4 bg-gradient-to-t from-background via-background to-transparent pt-6 border-t border-border/20">
         
-        {/* Enterprise Quick Actions */}
+        {/* Spec-Driven Quick Actions */}
         {!isGenerating && messages.length < 3 && (
           <div className="flex gap-2 mb-3 overflow-x-auto scrollbar-none pb-1">
             <button 
-              onClick={() => handleSubmit(undefined, "ดึงโปรเจกต์จาก Internal GitLab แล้วแปลงเป็น React ให้หน่อย")}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50 text-xs text-muted-foreground hover:text-foreground hover:bg-muted whitespace-nowrap transition-colors"
+              onClick={() => handleSubmit(undefined, "สร้างหน้า CRUD (Create/Read/Update/Delete) จากไฟล์ Swagger นี้ให้หน่อย")}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-sky-500/30 text-xs text-sky-400 hover:bg-sky-500/10 whitespace-nowrap transition-colors"
             >
-              <GitMerge size={12} className="text-orange-400" />
-              Sync GitLab On-Premise
+              <FileJson2 size={12} />
+              Scaffold UI from Spec
             </button>
             <button 
-              onClick={() => handleSubmit(undefined, "วิเคราะห์ไฟล์ Zip โค้ดเก่า แล้วสร้าง API Gateway ให้ใหม่")}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50 text-xs text-muted-foreground hover:text-foreground hover:bg-muted whitespace-nowrap transition-colors"
-            >
-              <FileArchive size={12} className="text-amber-400" />
-              Analyze Legacy Zip
-            </button>
-            <button 
-              onClick={() => handleSubmit(undefined, "สร้าง UI ครอบระบบ SOAP API เดิม")}
+              onClick={() => handleSubmit(undefined, "Generate TypeScript Interfaces & React Query จาก API Endpoint ทั้งหมด")}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50 text-xs text-muted-foreground hover:text-foreground hover:bg-muted whitespace-nowrap transition-colors"
             >
               <Code2 size={12} className="text-indigo-400" />
-              SOAP API Wrapper
+              Generate API Types
             </button>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="relative flex flex-col gap-2">
-          <div className="relative w-full flex items-end shadow-sm border border-border/60 rounded-xl bg-[#18181b] focus-within:ring-1 focus-within:ring-indigo-500 focus-within:border-indigo-500 transition-all">
+          <div className="relative w-full flex items-end shadow-sm border border-border/60 rounded-xl bg-[#18181b] focus-within:ring-1 focus-within:ring-sky-500 focus-within:border-sky-500 transition-all">
             <Textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="บอกให้ผมสร้างระบบอะไรดีครับ (รองรับภาษาไทย)..."
+              placeholder="สั่งให้ AI สร้างโค้ดอิงตาม API Spec ที่แนบมา..."
               className="min-h-[60px] max-h-[250px] w-full resize-none border-0 focus-visible:ring-0 rounded-xl py-3 px-4 bg-transparent shadow-none pr-24 scrollbar-none text-[14px]"
               rows={1}
             />
@@ -192,7 +185,7 @@ export function ChatPanel() {
                   type="submit" 
                   size="icon" 
                   disabled={!input.trim()}
-                  className={`h-8 w-8 rounded-full transition-all ${input.trim() ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-md' : 'bg-muted text-muted-foreground'}`}
+                  className={`h-8 w-8 rounded-full transition-all ${input.trim() ? 'bg-sky-600 text-white hover:bg-sky-700 shadow-md' : 'bg-muted text-muted-foreground'}`}
                 >
                   <ArrowUp size={18} />
                 </Button>

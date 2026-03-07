@@ -6,12 +6,13 @@ import { IntegrationsPanel } from "@/components/IntegrationsPanel";
 import { FilesPanel } from "@/components/FilesPanel";
 import { KnowledgePanel } from "@/components/KnowledgePanel";
 import { GovernancePanel } from "@/components/GovernancePanel";
+import { SpecPanel } from "@/components/SpecPanel";
 import { PreviewPanel } from "@/components/PreviewPanel";
 import { ShieldCheck, DatabaseZap, GitMerge, FileArchive, Link } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export type SidebarTab = "agent" | "files" | "repo" | "knowledge" | "integrations" | "data" | "governance" | "security" | "settings";
+export type SidebarTab = "agent" | "spec" | "files" | "repo" | "knowledge" | "integrations" | "data" | "governance" | "security" | "settings";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<"preview" | "code">("preview");
@@ -25,6 +26,7 @@ export default function Home() {
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={30} minSize={20} maxSize={45} className="bg-[#111113]">
             {activeSidebar === "agent" && <ChatPanel />}
+            {activeSidebar === "spec" && <SpecPanel />}
             {activeSidebar === "files" && <FilesPanel />}
             {activeSidebar === "integrations" && <IntegrationsPanel />}
             {activeSidebar === "knowledge" && <KnowledgePanel />}
@@ -110,7 +112,7 @@ export default function Home() {
             )}
           </ResizablePanel>
           
-          <ResizableHandle withHandle className="bg-border/40 hover:bg-indigo-500/50 transition-colors w-[2px]" />
+          <ResizableHandle withHandle className="bg-border/40 hover:bg-sky-500/50 transition-colors w-[2px]" />
           
           <ResizablePanel defaultSize={70}>
             <PreviewPanel activeTab={activeTab} onTabChange={setActiveTab} />

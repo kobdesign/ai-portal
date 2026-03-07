@@ -1,4 +1,4 @@
-import { MessageSquare, FolderCode, Blocks, Settings, Zap, ShieldCheck, DatabaseZap, GitMerge, BookOpen, UserCheck } from "lucide-react";
+import { MessageSquare, FolderCode, Blocks, Settings, Zap, ShieldCheck, DatabaseZap, GitMerge, BookOpen, UserCheck, FileJson2 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { SidebarTab } from "@/pages/Home";
 
@@ -10,6 +10,7 @@ interface ActivityBarProps {
 export function ActivityBar({ active, onChange }: ActivityBarProps) {
   const topItems = [
     { id: "agent", icon: MessageSquare, label: "Enterprise AI Agent" },
+    { id: "spec", icon: FileJson2, label: "Spec-Driven Development (OpenSpec)" },
     { id: "files", icon: FolderCode, label: "Project Explorer" },
     { id: "repo", icon: GitMerge, label: "Code Repository & Legacy Sync" },
     { id: "knowledge", icon: BookOpen, label: "Corporate Knowledge Base" },
