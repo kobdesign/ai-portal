@@ -1,10 +1,28 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Search, Database, Globe, Building2, Server, KeySquare, Layers, CheckCircle2 } from "lucide-react";
+import { Search, Database, Building2, Server, KeySquare, Layers, CheckCircle2, Workflow, TerminalSquare } from "lucide-react";
 
 export function IntegrationsPanel() {
   const integrations = [
+    {
+      id: "soap",
+      name: "Legacy API Connector",
+      category: "Legacy Systems",
+      description: "Auto-generate REST/GraphQL wrappers for old SOAP/XML-RPC APIs",
+      icon: <Workflow className="text-amber-500" size={24} />,
+      status: "available",
+      isEnterprise: true
+    },
+    {
+      id: "mainframe",
+      name: "AS/400 Terminal Emulator",
+      category: "Legacy Systems",
+      description: "Connect AI to Mainframe terminals for automated scraping/migration",
+      icon: <TerminalSquare className="text-emerald-500" size={24} />,
+      status: "available",
+      isEnterprise: true
+    },
     {
       id: "oracle",
       name: "Oracle Database",
@@ -31,24 +49,6 @@ export function IntegrationsPanel() {
       icon: <KeySquare className="text-cyan-500" size={24} />,
       status: "connected",
       isEnterprise: true
-    },
-    {
-      id: "mssql",
-      name: "MS SQL Server",
-      category: "On-Premise Data",
-      description: "Direct connection to Microsoft SQL Server instances",
-      icon: <Server className="text-slate-300" size={24} />,
-      status: "available",
-      isEnterprise: true
-    },
-    {
-      id: "aws",
-      name: "AWS / Azure / GCP",
-      category: "Cloud Infrastructure",
-      description: "Deploy directly to corporate cloud environments",
-      icon: <Layers className="text-orange-400" size={24} />,
-      status: "available",
-      isEnterprise: false
     }
   ];
 

@@ -1,4 +1,4 @@
-import { MessageSquare, FolderCode, Blocks, Settings, UserCircle, Zap, ShieldCheck, DatabaseZap } from "lucide-react";
+import { MessageSquare, FolderCode, Blocks, Settings, Zap, ShieldCheck, DatabaseZap, GitMerge } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { SidebarTab } from "@/pages/Home";
 
@@ -11,6 +11,7 @@ export function ActivityBar({ active, onChange }: ActivityBarProps) {
   const topItems = [
     { id: "agent", icon: MessageSquare, label: "Enterprise AI Agent" },
     { id: "files", icon: FolderCode, label: "Project Explorer" },
+    { id: "repo", icon: GitMerge, label: "Code Repository & Legacy Sync" },
     { id: "integrations", icon: Blocks, label: "Services & API" },
     { id: "data", icon: DatabaseZap, label: "Enterprise Data Hub" },
     { id: "security", icon: ShieldCheck, label: "Security & PDPA" },

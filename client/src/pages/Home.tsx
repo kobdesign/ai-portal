@@ -5,9 +5,11 @@ import { ChatPanel } from "@/components/ChatPanel";
 import { IntegrationsPanel } from "@/components/IntegrationsPanel";
 import { FilesPanel } from "@/components/FilesPanel";
 import { PreviewPanel } from "@/components/PreviewPanel";
-import { ShieldCheck, DatabaseZap } from "lucide-react";
+import { ShieldCheck, DatabaseZap, GitMerge, Link, FileArchive } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-export type SidebarTab = "agent" | "files" | "integrations" | "data" | "security" | "settings";
+export type SidebarTab = "agent" | "files" | "repo" | "integrations" | "data" | "security" | "settings";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<"preview" | "code">("preview");
@@ -23,6 +25,52 @@ export default function Home() {
             {activeSidebar === "agent" && <ChatPanel />}
             {activeSidebar === "files" && <FilesPanel />}
             {activeSidebar === "integrations" && <IntegrationsPanel />}
+            
+            {activeSidebar === "repo" && (
+              <div className="h-full flex flex-col bg-background/50">
+                <div className="p-4 border-b border-border/40 bg-card">
+                  <h2 className="text-lg font-semibold mb-1 flex items-center gap-2">
+                    Code & Legacy Sync
+                    <span className="px-1.5 py-0.5 text-[10px] bg-amber-500/20 text-amber-400 rounded uppercase font-bold tracking-wider">Enterprise</span>
+                  </h2>
+                  <p className="text-sm text-muted-foreground">เชื่อมต่อ Repository ภายในองค์กรหรืออัปโหลดโค้ดระบบเก่าให้ AI วิเคราะห์</p>
+                </div>
+                
+                <div className="p-4 space-y-6 flex-1 overflow-y-auto">
+                  {/* GitLab On-Premise / Internal Git */}
+                  <div className="space-y-3">
+                    <h3 className="text-sm font-medium text-foreground flex items-center gap-2">
+                      <GitMerge size={16} className="text-orange-500" />
+                      Internal Git / GitLab On-Premise
+                    </h3>
+                    <div className="flex flex-col gap-2">
+                      <Input placeholder="https://gitlab.internal.company.com/project.git" className="bg-[#18181b] border-border/60 text-sm" />
+                      <Input placeholder="Personal Access Token" type="password" className="bg-[#18181b] border-border/60 text-sm" />
+                      <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm h-9">
+                        <Link size={14} className="mr-2" /> Connect Repository
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="h-px w-full bg-border/40" />
+
+                  {/* Legacy Upload */}
+                  <div className="space-y-3">
+                    <h3 className="text-sm font-medium text-foreground flex items-center gap-2">
+                      <FileArchive size={16} className="text-amber-500" />
+                      Legacy Codebase Upload (Zip/Tar)
+                    </h3>
+                    <p className="text-xs text-muted-foreground">อัปโหลด Source code จากระบบเก่า (เช่น SVN, AS/400, PHP เก่า) ให้ AI เรียนรู้และ Refactor เป็น Modern Stack</p>
+                    <div className="border-2 border-dashed border-border/60 rounded-xl p-6 flex flex-col items-center justify-center text-center bg-[#18181b] hover:bg-muted/30 transition-colors cursor-pointer group">
+                      <FileArchive size={28} className="text-muted-foreground group-hover:text-amber-400 mb-2 transition-colors" />
+                      <span className="text-sm font-medium text-foreground">Drag & Drop codebase zip here</span>
+                      <span className="text-xs text-muted-foreground mt-1">Max size: 500MB</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {activeSidebar === "data" && (
               <div className="h-full flex flex-col p-6 text-center items-center justify-center bg-background/50">
                 <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 flex items-center justify-center mb-4">
@@ -37,6 +85,7 @@ export default function Home() {
                 </button>
               </div>
             )}
+            
             {activeSidebar === "security" && (
               <div className="h-full flex flex-col p-6 text-center items-center justify-center bg-background/50">
                 <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 flex items-center justify-center mb-4">
@@ -51,6 +100,7 @@ export default function Home() {
                 </button>
               </div>
             )}
+            
             {activeSidebar === "settings" && (
               <div className="p-6 text-muted-foreground flex flex-col items-center justify-center h-full text-sm">
                 Workspace Settings

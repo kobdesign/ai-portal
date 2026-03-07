@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUp, Sparkles, Loader2, StopCircle, ChevronDown, Paperclip, Code2, ShieldCheck, Database } from "lucide-react";
+import { ArrowUp, Sparkles, Loader2, StopCircle, ChevronDown, Paperclip, Code2, GitMerge, FileArchive } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 interface Message {
@@ -19,7 +19,7 @@ export function ChatPanel() {
     {
       id: "1",
       role: "assistant",
-      content: "สวัสดีครับ! ผมคือ Enterprise AI Agent สำหรับองค์กรไทย \n\nผมสามารถช่วยคุณ:\n• แปลงระบบ Legacy (AS/400, Java เก่า) เป็น Modern Stack\n• สร้าง Dashboard เชื่อมต่อ On-Premise Database\n• เขียนโค้ดโดยคำนึงถึง PDPA Compliance\n\nวันนี้มีโปรเจกต์อะไรให้ผมช่วยทำครับ?",
+      content: "สวัสดีครับ! ผมคือ Enterprise AI Agent สำหรับองค์กรไทย \n\nผมสามารถช่วยคุณ:\n• ซิงค์โค้ดกับ Internal GitLab หรืออัปโหลดโค้ดระบบเก่าให้ผมวิเคราะห์\n• แปลงระบบ Legacy (AS/400, Java เก่า) เป็น Modern Stack\n• สร้าง Dashboard เชื่อมต่อ On-Premise Database\n\nวันนี้มีโปรเจกต์อะไรให้ผมช่วยทำครับ?",
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
@@ -55,7 +55,7 @@ export function ChatPanel() {
       setMessages(prev => [...prev, {
         id: generatingId,
         role: "assistant",
-        content: "กำลังวิเคราะห์โครงสร้างองค์กร และตรวจสอบความปลอดภัยข้อมูล...",
+        content: "กำลังเชื่อมต่อกับ Internal GitLab และดึง Source Code มารีวิวโครงสร้าง...",
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         isGenerating: true
       }]);
@@ -63,11 +63,11 @@ export function ChatPanel() {
       setTimeout(() => {
         setMessages(prev => prev.map(msg => 
           msg.id === generatingId 
-            ? { ...msg, isGenerating: false, content: "เรียบร้อยครับ! ผมได้ปรับปรุงระบบตามที่คุณต้องการแล้ว โดยได้เพิ่ม Data Masking เข้าไปในส่วนของข้อมูลลูกค้าเพื่อความสอดคล้องกับ PDPA \n\nลองตรวจสอบผลลัพธ์ในหน้าจอ Preview ได้เลยครับ หากต้องการเชื่อมต่อกับ SAP API ให้แจ้งผมได้เลย" }
+            ? { ...msg, isGenerating: false, content: "ผมได้ดึงโค้ดจาก Internal Repo เรียบร้อยแล้วครับ! และได้วิเคราะห์ระบบเก่า (Legacy PHP) พบว่าสามารถทำ API Gateway คั่นกลางเพื่อค่อยๆ เปลี่ยนผ่าน (Strangler Fig Pattern) ไปเป็น React ได้เลย \n\nผมได้สร้างโครงสร้างโปรเจกต์ใหม่และเชื่อมต่อให้ดูใน Preview แล้วครับ ให้ผมดำเนินการ Migrate หน้าไหนต่อดีครับ?" }
             : msg
         ));
         setIsGenerating(false);
-      }, 3000);
+      }, 3500);
     }, 500);
   };
 
@@ -97,9 +97,9 @@ export function ChatPanel() {
         </DropdownMenu>
 
         <div className="flex items-center gap-2">
-          <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
-            <ShieldCheck size={12} className="mr-1" />
-            PDPA Ready
+          <Badge variant="outline" className="bg-orange-500/10 text-orange-400 border-orange-500/20 cursor-pointer">
+            <GitMerge size={12} className="mr-1" />
+            GitLab Connected
           </Badge>
         </div>
       </div>
@@ -124,7 +124,7 @@ export function ChatPanel() {
                 {msg.isGenerating && (
                   <div className="flex items-center gap-2 mt-3 text-muted-foreground bg-muted/20 p-2 rounded-lg border border-border/20">
                     <Loader2 size={14} className="animate-spin text-indigo-400" />
-                    <span className="text-xs font-medium">กำลังเขียนโค้ดและคอมไพล์...</span>
+                    <span className="text-xs font-medium">กำลังประมวลผลโค้ด...</span>
                   </div>
                 )}
               </div>
@@ -142,25 +142,25 @@ export function ChatPanel() {
         {!isGenerating && messages.length < 3 && (
           <div className="flex gap-2 mb-3 overflow-x-auto scrollbar-none pb-1">
             <button 
-              onClick={() => handleSubmit(undefined, "ช่วยเขียนระบบ Login ที่เชื่อมกับ Corporate Active Directory (AD) ให้หน่อย")}
+              onClick={() => handleSubmit(undefined, "ดึงโปรเจกต์จาก Internal GitLab แล้วแปลงเป็น React ให้หน่อย")}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50 text-xs text-muted-foreground hover:text-foreground hover:bg-muted whitespace-nowrap transition-colors"
             >
-              <ShieldCheck size={12} className="text-emerald-400" />
-              AD / SSO Login
+              <GitMerge size={12} className="text-orange-400" />
+              Sync GitLab On-Premise
             </button>
             <button 
-              onClick={() => handleSubmit(undefined, "สร้าง Dashboard ดึงข้อมูลจากฐานข้อมูล Oracle On-Premise")}
+              onClick={() => handleSubmit(undefined, "วิเคราะห์ไฟล์ Zip โค้ดเก่า แล้วสร้าง API Gateway ให้ใหม่")}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50 text-xs text-muted-foreground hover:text-foreground hover:bg-muted whitespace-nowrap transition-colors"
             >
-              <Database size={12} className="text-blue-400" />
-              Connect Oracle DB
+              <FileArchive size={12} className="text-amber-400" />
+              Analyze Legacy Zip
             </button>
             <button 
-              onClick={() => handleSubmit(undefined, "ช่วยแปลงไฟล์โค้ด PHP เก่านี้เป็น React + Node.js")}
+              onClick={() => handleSubmit(undefined, "สร้าง UI ครอบระบบ SOAP API เดิม")}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50 text-xs text-muted-foreground hover:text-foreground hover:bg-muted whitespace-nowrap transition-colors"
             >
               <Code2 size={12} className="text-indigo-400" />
-              Legacy Migration
+              SOAP API Wrapper
             </button>
           </div>
         )}
