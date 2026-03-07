@@ -10,11 +10,12 @@ import { GovernancePanel } from "@/components/GovernancePanel";
 import { SpecPanel } from "@/components/SpecPanel";
 import { LifecyclePanel } from "@/components/LifecyclePanel";
 import { PreviewPanel } from "@/components/PreviewPanel";
+import { DeploymentPanel } from "@/components/DeploymentPanel";
 import { ShieldCheck, DatabaseZap, GitMerge, FileArchive, Link, ArrowLeft } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export type SidebarTab = "agent" | "lifecycle" | "spec" | "files" | "repo" | "knowledge" | "integrations" | "data" | "governance" | "security" | "settings";
+export type SidebarTab = "agent" | "lifecycle" | "spec" | "files" | "repo" | "knowledge" | "integrations" | "data" | "governance" | "security" | "settings" | "deploy";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<"preview" | "code">("preview");
@@ -57,6 +58,7 @@ export default function Home() {
               {activeSidebar === "integrations" && <IntegrationsPanel />}
               {activeSidebar === "knowledge" && <KnowledgePanel />}
               {activeSidebar === "governance" && <GovernancePanel />}
+              {activeSidebar === "deploy" && <DeploymentPanel />}
               
               {activeSidebar === "repo" && (
                 <div className="h-full flex flex-col bg-background/50">
