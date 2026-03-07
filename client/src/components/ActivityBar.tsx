@@ -1,4 +1,4 @@
-import { MessageSquare, FolderCode, Blocks, Settings, Zap, ShieldCheck, DatabaseZap, GitMerge } from "lucide-react";
+import { MessageSquare, FolderCode, Blocks, Settings, Zap, ShieldCheck, DatabaseZap, GitMerge, BookOpen, UserCheck } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { SidebarTab } from "@/pages/Home";
 
@@ -12,8 +12,10 @@ export function ActivityBar({ active, onChange }: ActivityBarProps) {
     { id: "agent", icon: MessageSquare, label: "Enterprise AI Agent" },
     { id: "files", icon: FolderCode, label: "Project Explorer" },
     { id: "repo", icon: GitMerge, label: "Code Repository & Legacy Sync" },
+    { id: "knowledge", icon: BookOpen, label: "Corporate Knowledge Base" },
     { id: "integrations", icon: Blocks, label: "Services & API" },
     { id: "data", icon: DatabaseZap, label: "Enterprise Data Hub" },
+    { id: "governance", icon: UserCheck, label: "Governance & Audit Logs" },
     { id: "security", icon: ShieldCheck, label: "Security & PDPA" },
   ] as const;
 
@@ -22,9 +24,9 @@ export function ActivityBar({ active, onChange }: ActivityBarProps) {
   ] as const;
 
   return (
-    <div className="w-14 h-full flex flex-col items-center py-4 bg-[#18181b] border-r border-border/40 justify-between shrink-0">
-      <div className="flex flex-col items-center gap-4 w-full">
-        <div className="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center mb-4 border border-indigo-500/30">
+    <div className="w-14 h-full flex flex-col items-center py-4 bg-[#18181b] border-r border-border/40 justify-between shrink-0 overflow-y-auto overflow-x-hidden scrollbar-none">
+      <div className="flex flex-col items-center gap-3 w-full">
+        <div className="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center mb-2 border border-indigo-500/30 shrink-0">
           <Zap size={18} className="fill-indigo-500/50" />
         </div>
 
@@ -36,7 +38,7 @@ export function ActivityBar({ active, onChange }: ActivityBarProps) {
               <TooltipTrigger asChild>
                 <button
                   onClick={() => onChange(item.id as SidebarTab)}
-                  className={`relative p-2.5 rounded-xl transition-all duration-200 ${
+                  className={`relative p-2.5 rounded-xl transition-all duration-200 shrink-0 ${
                     isActive 
                       ? "text-indigo-400 bg-indigo-500/10" 
                       : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
@@ -48,7 +50,7 @@ export function ActivityBar({ active, onChange }: ActivityBarProps) {
                   )}
                 </button>
               </TooltipTrigger>
-              <TooltipContent side="right" sideOffset={10}>
+              <TooltipContent side="right" sideOffset={10} className="z-50">
                 <p>{item.label}</p>
               </TooltipContent>
             </Tooltip>
@@ -56,7 +58,7 @@ export function ActivityBar({ active, onChange }: ActivityBarProps) {
         })}
       </div>
 
-      <div className="flex flex-col items-center gap-4 w-full">
+      <div className="flex flex-col items-center gap-4 w-full mt-4 shrink-0">
         {bottomItems.map((item) => {
           const Icon = item.icon;
           const isActive = active === item.id;

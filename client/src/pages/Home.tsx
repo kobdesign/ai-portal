@@ -4,12 +4,14 @@ import { ActivityBar } from "@/components/ActivityBar";
 import { ChatPanel } from "@/components/ChatPanel";
 import { IntegrationsPanel } from "@/components/IntegrationsPanel";
 import { FilesPanel } from "@/components/FilesPanel";
+import { KnowledgePanel } from "@/components/KnowledgePanel";
+import { GovernancePanel } from "@/components/GovernancePanel";
 import { PreviewPanel } from "@/components/PreviewPanel";
-import { ShieldCheck, DatabaseZap, GitMerge, Link, FileArchive } from "lucide-react";
+import { ShieldCheck, DatabaseZap, GitMerge, FileArchive, Link } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export type SidebarTab = "agent" | "files" | "repo" | "integrations" | "data" | "security" | "settings";
+export type SidebarTab = "agent" | "files" | "repo" | "knowledge" | "integrations" | "data" | "governance" | "security" | "settings";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<"preview" | "code">("preview");
@@ -25,6 +27,8 @@ export default function Home() {
             {activeSidebar === "agent" && <ChatPanel />}
             {activeSidebar === "files" && <FilesPanel />}
             {activeSidebar === "integrations" && <IntegrationsPanel />}
+            {activeSidebar === "knowledge" && <KnowledgePanel />}
+            {activeSidebar === "governance" && <GovernancePanel />}
             
             {activeSidebar === "repo" && (
               <div className="h-full flex flex-col bg-background/50">
@@ -37,7 +41,6 @@ export default function Home() {
                 </div>
                 
                 <div className="p-4 space-y-6 flex-1 overflow-y-auto">
-                  {/* GitLab On-Premise / Internal Git */}
                   <div className="space-y-3">
                     <h3 className="text-sm font-medium text-foreground flex items-center gap-2">
                       <GitMerge size={16} className="text-orange-500" />
@@ -54,7 +57,6 @@ export default function Home() {
 
                   <div className="h-px w-full bg-border/40" />
 
-                  {/* Legacy Upload */}
                   <div className="space-y-3">
                     <h3 className="text-sm font-medium text-foreground flex items-center gap-2">
                       <FileArchive size={16} className="text-amber-500" />
