@@ -7,12 +7,13 @@ import { FilesPanel } from "@/components/FilesPanel";
 import { KnowledgePanel } from "@/components/KnowledgePanel";
 import { GovernancePanel } from "@/components/GovernancePanel";
 import { SpecPanel } from "@/components/SpecPanel";
+import { LifecyclePanel } from "@/components/LifecyclePanel";
 import { PreviewPanel } from "@/components/PreviewPanel";
 import { ShieldCheck, DatabaseZap, GitMerge, FileArchive, Link } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export type SidebarTab = "agent" | "spec" | "files" | "repo" | "knowledge" | "integrations" | "data" | "governance" | "security" | "settings";
+export type SidebarTab = "agent" | "lifecycle" | "spec" | "files" | "repo" | "knowledge" | "integrations" | "data" | "governance" | "security" | "settings";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<"preview" | "code">("preview");
@@ -24,8 +25,9 @@ export default function Home() {
       
       <main className="flex-1 flex w-full h-full border-l border-border/40">
         <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel defaultSize={30} minSize={20} maxSize={45} className="bg-[#111113]">
+          <ResizablePanel defaultSize={35} minSize={25} maxSize={50} className="bg-[#111113]">
             {activeSidebar === "agent" && <ChatPanel />}
+            {activeSidebar === "lifecycle" && <LifecyclePanel />}
             {activeSidebar === "spec" && <SpecPanel />}
             {activeSidebar === "files" && <FilesPanel />}
             {activeSidebar === "integrations" && <IntegrationsPanel />}
@@ -114,7 +116,7 @@ export default function Home() {
           
           <ResizableHandle withHandle className="bg-border/40 hover:bg-sky-500/50 transition-colors w-[2px]" />
           
-          <ResizablePanel defaultSize={70}>
+          <ResizablePanel defaultSize={65}>
             <PreviewPanel activeTab={activeTab} onTabChange={setActiveTab} />
           </ResizablePanel>
         </ResizablePanelGroup>

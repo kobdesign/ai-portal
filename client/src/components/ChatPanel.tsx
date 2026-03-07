@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUp, Sparkles, Loader2, StopCircle, ChevronDown, Paperclip, FileText, CheckSquare, ListTodo } from "lucide-react";
+import { ArrowUp, Sparkles, Loader2, StopCircle, ChevronDown, Paperclip, CheckSquare, ListTodo, FolderKanban } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 interface Message {
@@ -19,7 +19,7 @@ export function ChatPanel() {
     {
       id: "1",
       role: "assistant",
-      content: "สวัสดีครับ! แพลตฟอร์มของเรารองรับ Spec-Driven Development ตามหลักการของ OpenSpec\n\nคุณสามารถระบุ Requirement/User Story เข้ามาในระบบ Project Management ของเรา แล้วให้ผมแปลง Spec เหล่านั้นเป็นโค้ดที่ทำงานได้จริง ทั้งโครงสร้าง UI, Logic, และการเชื่อมต่อ API\n\nต้องการให้ผมเริ่มเขียนโค้ดจาก Spec ไหน หรือให้ช่วยเขียน Spec ใหม่ดีครับ?",
+      content: "สวัสดีครับ! คุณสามารถเริ่มสร้าง New Feature ได้เลย\n\nผมพร้อมช่วยพาคุณเข้าสู่กระบวนการ: Explore Idea ➔ Ideate ➔ Proposal ➔ Plan ➔ Design ➔ Implement ➔ Test ➔ Complete\n\nมีไอเดียฟีเจอร์ใหม่ที่อยากจะให้ผมช่วยรวบรวม Requirement ก่อนไหมครับ?",
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
@@ -55,7 +55,7 @@ export function ChatPanel() {
       setMessages(prev => [...prev, {
         id: generatingId,
         role: "assistant",
-        content: "กำลังอ่าน Requirement จาก OpenSpec Document และวางโครงสร้าง...",
+        content: "กำลังย้าย Feature เข้าสู่สถานะ Plan & Design...",
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         isGenerating: true
       }]);
@@ -63,7 +63,7 @@ export function ChatPanel() {
       setTimeout(() => {
         setMessages(prev => prev.map(msg => 
           msg.id === generatingId 
-            ? { ...msg, isGenerating: false, content: "ผมได้พัฒนาฟีเจอร์ตาม Spec อัตโนมัติเรียบร้อยแล้วครับ:\n1. สร้าง UI Component ตาม Design System ขององค์กร\n2. เขียน Logic ควบคุม Role-based Access Control\n3. สร้าง Automated Tests อิงตาม Acceptance Criteria ใน Spec\n\nสถานะใน Project Management ถูกปรับเป็น 'In Review' ให้แล้วครับ" }
+            ? { ...msg, isGenerating: false, content: "เยี่ยมเลยครับ ผมได้รับไอเดียแล้ว และได้สร้าง Feature ใหม่ในระบบ Lifecycle พร้อมวางแผน Tasks ให้เรียบร้อย\n\nกระบวนการถัดไปคือการ Implement (เขียนโค้ด) ให้ผมเริ่ม Generate โค้ดตาม Plan ที่วางไว้เลยไหมครับ?" }
             : msg
         ));
         setIsGenerating(false);
@@ -97,9 +97,9 @@ export function ChatPanel() {
         </DropdownMenu>
 
         <div className="flex items-center gap-2">
-          <Badge variant="outline" className="bg-sky-500/10 text-sky-400 border-sky-500/20 cursor-pointer">
-            <ListTodo size={12} className="mr-1" />
-            Project Spec Linked
+          <Badge variant="outline" className="bg-purple-500/10 text-purple-400 border-purple-500/20 cursor-pointer">
+            <FolderKanban size={12} className="mr-1" />
+            Active Feature: FEAT-2
           </Badge>
         </div>
       </div>
@@ -123,8 +123,8 @@ export function ChatPanel() {
                 </div>
                 {msg.isGenerating && (
                   <div className="flex items-center gap-2 mt-3 text-muted-foreground bg-muted/20 p-2 rounded-lg border border-border/20">
-                    <Loader2 size={14} className="animate-spin text-sky-400" />
-                    <span className="text-xs font-medium">กำลังเปลี่ยน Spec เป็น Code...</span>
+                    <Loader2 size={14} className="animate-spin text-purple-400" />
+                    <span className="text-xs font-medium">กำลังปรับสถานะโปรเจกต์...</span>
                   </div>
                 )}
               </div>
@@ -138,33 +138,33 @@ export function ChatPanel() {
 
       <div className="p-4 bg-gradient-to-t from-background via-background to-transparent pt-6 border-t border-border/20">
         
-        {/* Spec-Driven Quick Actions */}
+        {/* Ideation Quick Actions */}
         {!isGenerating && messages.length < 3 && (
           <div className="flex gap-2 mb-3 overflow-x-auto scrollbar-none pb-1">
             <button 
-              onClick={() => handleSubmit(undefined, "ช่วยเขียนโค้ดสำหรับ US-102: Role-based Access Control (RBAC) ให้หน่อย")}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-sky-500/30 text-xs text-sky-400 hover:bg-sky-500/10 whitespace-nowrap transition-colors"
+              onClick={() => handleSubmit(undefined, "สร้าง Feature ใหม่: ระบบ Export PDF สำหรับ Dashboard")}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-purple-500/30 text-xs text-purple-400 hover:bg-purple-500/10 whitespace-nowrap transition-colors"
             >
-              <FileText size={12} />
-              Generate from US-102
+              <Lightbulb size={12} />
+              Explore Idea
             </button>
             <button 
-              onClick={() => handleSubmit(undefined, "สร้าง Acceptance Test Scripts ตาม Requirement ในเอกสารนี้")}
+              onClick={() => handleSubmit(undefined, "ขอ Proposal และแผนงาน (Plan) สำหรับฟีเจอร์นี้")}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50 text-xs text-muted-foreground hover:text-foreground hover:bg-muted whitespace-nowrap transition-colors"
             >
               <CheckSquare size={12} className="text-emerald-400" />
-              Write Acceptance Tests
+              Generate Plan
             </button>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="relative flex flex-col gap-2">
-          <div className="relative w-full flex items-end shadow-sm border border-border/60 rounded-xl bg-[#18181b] focus-within:ring-1 focus-within:ring-sky-500 focus-within:border-sky-500 transition-all">
+          <div className="relative w-full flex items-end shadow-sm border border-border/60 rounded-xl bg-[#18181b] focus-within:ring-1 focus-within:ring-purple-500 focus-within:border-purple-500 transition-all">
             <Textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="สั่งให้ AI พัฒนาระบบตาม Spec ที่กำหนดไว้..."
+              placeholder="คุยเพื่อ Ideate ไอเดียฟีเจอร์ใหม่ หรือสั่งรัน Tasks ในโปรเจกต์..."
               className="min-h-[60px] max-h-[250px] w-full resize-none border-0 focus-visible:ring-0 rounded-xl py-3 px-4 bg-transparent shadow-none pr-24 scrollbar-none text-[14px]"
               rows={1}
             />
@@ -185,7 +185,7 @@ export function ChatPanel() {
                   type="submit" 
                   size="icon" 
                   disabled={!input.trim()}
-                  className={`h-8 w-8 rounded-full transition-all ${input.trim() ? 'bg-sky-600 text-white hover:bg-sky-700 shadow-md' : 'bg-muted text-muted-foreground'}`}
+                  className={`h-8 w-8 rounded-full transition-all ${input.trim() ? 'bg-purple-600 text-white hover:bg-purple-700 shadow-md' : 'bg-muted text-muted-foreground'}`}
                 >
                   <ArrowUp size={18} />
                 </Button>
