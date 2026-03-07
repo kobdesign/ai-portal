@@ -1,13 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { FolderKanban, Plus, Search, Layers, Clock, ArrowRight, Activity, Smartphone, Server, FileCode2 } from "lucide-react";
+import { FolderKanban, Plus, Search, Layers, Clock, ArrowRight, Activity, Smartphone, Server, FileCode2, LogOut, UserCircle } from "lucide-react";
 
 export default function Dashboard() {
   const [, setLocation] = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
+  const [userRole, setUserRole] = useState("Developer");
+
+  useEffect(() => {
+    const role = localStorage.getItem("userRole");
+    if (role) setUserRole(role);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("userRole");
+    setLocation("/login");
+  };
 
   const projects = [
     {
@@ -54,16 +66,26 @@ export default function Dashboard() {
         {/* Header */}
         <div className="flex justify-between items-end mb-12">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Welcome back, Developer</h1>
+            <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Welcome back, {userRole}</h1>
             <p className="text-slate-400 text-sm">Select a project to continue building or start something new.</p>
           </div>
-          <Button 
-            className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-full px-6 shadow-[0_0_20px_rgba(79,70,229,0.3)]"
-            onClick={() => setLocation("/editor/new")}
-          >
-            <Plus size={16} className="mr-2" />
-            Create Project
-          </Button>
+          <div className="flex items-center gap-4">
+            <Button 
+              variant="outline"
+              className="bg-transparent border-[#27272a] text-slate-300 hover:text-white hover:bg-white/5"
+              onClick={handleLogout}
+            >
+              <LogOut size={16} className="mr-2" />
+              Sign Out
+            </Button>
+            <Button 
+              className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-full px-6 shadow-[0_0_20px_rgba(79,70,229,0.3)]"
+              onClick={() => setLocation("/editor/new")}
+            >
+              <Plus size={16} className="mr-2" />
+              Create Project
+            </Button>
+          </div>
         </div>
 
         {/* Search and Filters */}
