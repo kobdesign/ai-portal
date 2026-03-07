@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Code, MonitorPlay, RefreshCw, Maximize2, TerminalSquare, ExternalLink, Download, Rocket, Info, X } from "lucide-react";
+import { Code, MonitorPlay, RefreshCw, Maximize2, TerminalSquare, ExternalLink, Download, Rocket, Info, X, Sparkles } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface PreviewPanelProps {
