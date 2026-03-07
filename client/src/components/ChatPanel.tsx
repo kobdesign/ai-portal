@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUp, Sparkles, Loader2, StopCircle, ChevronDown, Paperclip, CheckSquare, ListTodo, FolderKanban } from "lucide-react";
+import { ArrowUp, Sparkles, Loader2, StopCircle, ChevronDown, Paperclip, CheckSquare, ListTodo, FolderKanban, Lightbulb } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 interface Message {

@@ -124,7 +124,7 @@ export function LifecyclePanel() {
                     <div className="flex items-center gap-3 text-xs text-muted-foreground">
                       <span>Tasks: {feature.tasksDone}/{feature.tasksTotal}</span>
                       <div className="w-24 h-1.5 bg-muted rounded-full overflow-hidden">
-                        <div className="h-full bg-purple-500" style={{ width: \`\${(feature.tasksDone/feature.tasksTotal)*100}%\` }}></div>
+                        <div className="h-full bg-purple-500" style={{ width: `${(feature.tasksDone/feature.tasksTotal)*100}%` }}></div>
                       </div>
                     </div>
                   </div>
