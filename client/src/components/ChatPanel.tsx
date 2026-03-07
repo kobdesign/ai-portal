@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUp, Sparkles, Loader2, StopCircle, ChevronDown, Paperclip, Code2, GitMerge, FileJson2 } from "lucide-react";
+import { ArrowUp, Sparkles, Loader2, StopCircle, ChevronDown, Paperclip, FileText, CheckSquare, ListTodo } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 interface Message {
@@ -19,7 +19,7 @@ export function ChatPanel() {
     {
       id: "1",
       role: "assistant",
-      content: "สวัสดีครับ! ผมคือ Enterprise AI Agent สำหรับองค์กรไทย \n\nจุดเด่นของเราคือการทำ Spec-Driven Development คุณสามารถอัปโหลดไฟล์ OpenAPI / Swagger เข้ามา เพื่อให้ผมวิเคราะห์และสร้างโค้ดส่วน Frontend ให้แบบ 100% ครบทั้ง API Client, Type Safety (Zod), และฟอร์มต่างๆ แบบลด Human Error\n\nจะให้ผมสร้างโปรเจกต์จาก Spec หรือเริ่มจากศูนย์ดีครับ?",
+      content: "สวัสดีครับ! แพลตฟอร์มของเรารองรับ Spec-Driven Development ตามหลักการของ OpenSpec\n\nคุณสามารถระบุ Requirement/User Story เข้ามาในระบบ Project Management ของเรา แล้วให้ผมแปลง Spec เหล่านั้นเป็นโค้ดที่ทำงานได้จริง ทั้งโครงสร้าง UI, Logic, และการเชื่อมต่อ API\n\nต้องการให้ผมเริ่มเขียนโค้ดจาก Spec ไหน หรือให้ช่วยเขียน Spec ใหม่ดีครับ?",
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
@@ -55,7 +55,7 @@ export function ChatPanel() {
       setMessages(prev => [...prev, {
         id: generatingId,
         role: "assistant",
-        content: "กำลังอ่าน OpenAPI Specification (swagger.yaml) และวิเคราะห์ Schema โครงสร้างข้อมูลทั้งหมด...",
+        content: "กำลังอ่าน Requirement จาก OpenSpec Document และวางโครงสร้าง...",
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         isGenerating: true
       }]);
@@ -63,7 +63,7 @@ export function ChatPanel() {
       setTimeout(() => {
         setMessages(prev => prev.map(msg => 
           msg.id === generatingId 
-            ? { ...msg, isGenerating: false, content: "อ้างอิงจาก Spec ของ Core Banking API ที่แนบมา ผมได้ทำการ:\n1. สร้าง Zod Schemas สำหรับ Validation ข้อมูลลูกค้า 12 ชุด\n2. เขียน React Query hooks สำหรับเรียกใช้ endpoints ทั้งหมด\n3. สร้างหน้า Customer Dashboard และฟอร์มแก้ไขข้อมูลที่ผูก Type ถูกต้อง 100% เรียบร้อยครับ\n\nลองทดสอบ Form Validation ในหน้า Preview ได้เลยครับ ระบบพร้อมใช้งานแล้ว!" }
+            ? { ...msg, isGenerating: false, content: "ผมได้พัฒนาฟีเจอร์ตาม Spec อัตโนมัติเรียบร้อยแล้วครับ:\n1. สร้าง UI Component ตาม Design System ขององค์กร\n2. เขียน Logic ควบคุม Role-based Access Control\n3. สร้าง Automated Tests อิงตาม Acceptance Criteria ใน Spec\n\nสถานะใน Project Management ถูกปรับเป็น 'In Review' ให้แล้วครับ" }
             : msg
         ));
         setIsGenerating(false);
@@ -98,8 +98,8 @@ export function ChatPanel() {
 
         <div className="flex items-center gap-2">
           <Badge variant="outline" className="bg-sky-500/10 text-sky-400 border-sky-500/20 cursor-pointer">
-            <FileJson2 size={12} className="mr-1" />
-            OpenAPI Synced
+            <ListTodo size={12} className="mr-1" />
+            Project Spec Linked
           </Badge>
         </div>
       </div>
@@ -124,7 +124,7 @@ export function ChatPanel() {
                 {msg.isGenerating && (
                   <div className="flex items-center gap-2 mt-3 text-muted-foreground bg-muted/20 p-2 rounded-lg border border-border/20">
                     <Loader2 size={14} className="animate-spin text-sky-400" />
-                    <span className="text-xs font-medium">กำลังทำ Spec-Driven Generation...</span>
+                    <span className="text-xs font-medium">กำลังเปลี่ยน Spec เป็น Code...</span>
                   </div>
                 )}
               </div>
@@ -142,18 +142,18 @@ export function ChatPanel() {
         {!isGenerating && messages.length < 3 && (
           <div className="flex gap-2 mb-3 overflow-x-auto scrollbar-none pb-1">
             <button 
-              onClick={() => handleSubmit(undefined, "สร้างหน้า CRUD (Create/Read/Update/Delete) จากไฟล์ Swagger นี้ให้หน่อย")}
+              onClick={() => handleSubmit(undefined, "ช่วยเขียนโค้ดสำหรับ US-102: Role-based Access Control (RBAC) ให้หน่อย")}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-sky-500/30 text-xs text-sky-400 hover:bg-sky-500/10 whitespace-nowrap transition-colors"
             >
-              <FileJson2 size={12} />
-              Scaffold UI from Spec
+              <FileText size={12} />
+              Generate from US-102
             </button>
             <button 
-              onClick={() => handleSubmit(undefined, "Generate TypeScript Interfaces & React Query จาก API Endpoint ทั้งหมด")}
+              onClick={() => handleSubmit(undefined, "สร้าง Acceptance Test Scripts ตาม Requirement ในเอกสารนี้")}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50 text-xs text-muted-foreground hover:text-foreground hover:bg-muted whitespace-nowrap transition-colors"
             >
-              <Code2 size={12} className="text-indigo-400" />
-              Generate API Types
+              <CheckSquare size={12} className="text-emerald-400" />
+              Write Acceptance Tests
             </button>
           </div>
         )}
@@ -164,7 +164,7 @@ export function ChatPanel() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="สั่งให้ AI สร้างโค้ดอิงตาม API Spec ที่แนบมา..."
+              placeholder="สั่งให้ AI พัฒนาระบบตาม Spec ที่กำหนดไว้..."
               className="min-h-[60px] max-h-[250px] w-full resize-none border-0 focus-visible:ring-0 rounded-xl py-3 px-4 bg-transparent shadow-none pr-24 scrollbar-none text-[14px]"
               rows={1}
             />
