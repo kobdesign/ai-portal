@@ -9,19 +9,28 @@ import Login from "@/pages/Login";
 import NotFound from "@/pages/not-found";
 import { ExecutiveDashboard } from "@/pages/ExecutiveDashboard";
 import GlobalTopology from "@/pages/GlobalTopology";
-import { useEffect, useState } from "react";
+import { AuthProvider, useAuth } from "@/hooks/use-auth";
+import { useEffect } from "react";
 
 function ProtectedRoute({ component: Component, ...rest }: any) {
-  const [location, setLocation] = useLocation();
-  const [isAuthenticated, setIsAuthenticated] = useState(true); // For mockup purposes, set to true by default or manage via global state
+  const [, setLocation] = useLocation();
+  const { user, isLoading } = useAuth();
 
-  // In a real app, check auth token here
   useEffect(() => {
-    const authStatus = localStorage.getItem("isAuthenticated");
-    if (authStatus === "false" || !authStatus) {
-       setLocation("/login");
+    if (!isLoading && !user) {
+      setLocation("/login");
     }
-  }, [location, setLocation]);
+  }, [user, isLoading, setLocation]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#111113] flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (!user) return null;
 
   return <Component {...rest} />;
 }
@@ -42,10 +51,12 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Router />
-      </TooltipProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Router />
+        </TooltipProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

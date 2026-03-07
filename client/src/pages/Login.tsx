@@ -2,27 +2,48 @@ import { useState } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Building2, KeyRound, Lock, ShieldCheck, Mail } from "lucide-react";
+import { Building2, KeyRound, Lock, ShieldCheck, Mail, UserPlus } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { useAuth } from "@/hooks/use-auth";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Login() {
   const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
+  const [isRegister, setIsRegister] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const { login, register, user } = useAuth();
+  const { toast } = useToast();
 
-  const handleLogin = (e: React.FormEvent) => {
+  if (user) {
+    setLocation("/");
+    return null;
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => {
-      localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("userRole", "Developer"); // Mockup role
-      setIsLoading(false);
+    try {
+      if (isRegister) {
+        await register(username, password);
+      } else {
+        await login(username, password);
+      }
       setLocation("/");
-    }, 1500);
+    } catch (error: any) {
+      toast({
+        title: isRegister ? "Registration failed" : "Login failed",
+        description: error.message || "Please check your credentials and try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-[#111113] flex items-center justify-center relative overflow-hidden">
-      {/* Background Effects */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none"></div>
       
       <div className="w-full max-w-md p-8 relative z-10">
@@ -35,33 +56,36 @@ export default function Login() {
         </div>
 
         <Card className="bg-[#18181b]/80 border-[#27272a] backdrop-blur-sm p-8 shadow-2xl">
-          <form onSubmit={handleLogin} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-4">
               <div className="space-y-2">
-                <label htmlFor="email" className="text-slate-300 text-xs uppercase tracking-wider font-semibold">Corporate Email</label>
+                <label htmlFor="username" className="text-slate-300 text-xs uppercase tracking-wider font-semibold">Username</label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
                   <Input 
-                    id="email" 
-                    placeholder="developer@company.com" 
+                    id="username" 
+                    data-testid="input-username"
+                    placeholder="Enter your username" 
                     className="bg-black/40 border-[#27272a] pl-10 text-white focus-visible:ring-indigo-500 h-11"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     required
                   />
                 </div>
               </div>
               
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <label htmlFor="password" className="text-slate-300 text-xs uppercase tracking-wider font-semibold">Password</label>
-                  <a href="#" className="text-indigo-400 hover:text-indigo-300 text-xs">Forgot password?</a>
-                </div>
+                <label htmlFor="password" className="text-slate-300 text-xs uppercase tracking-wider font-semibold">Password</label>
                 <div className="relative">
                   <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
                   <Input 
                     id="password" 
+                    data-testid="input-password"
                     type="password" 
                     placeholder="••••••••" 
                     className="bg-black/40 border-[#27272a] pl-10 text-white focus-visible:ring-indigo-500 h-11"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     required
                   />
                 </div>
@@ -70,22 +94,34 @@ export default function Login() {
 
             <Button 
               type="submit" 
+              data-testid="button-submit"
               className="w-full bg-indigo-600 hover:bg-indigo-700 text-white h-11 font-medium transition-all shadow-[0_0_20px_rgba(79,70,229,0.2)]"
               disabled={isLoading}
             >
               {isLoading ? (
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
-                  Authenticating...
+                  {isRegister ? "Creating account..." : "Authenticating..."}
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <Lock size={16} />
-                  Sign In to Workspace
+                  {isRegister ? <UserPlus size={16} /> : <Lock size={16} />}
+                  {isRegister ? "Create Account" : "Sign In to Workspace"}
                 </div>
               )}
             </Button>
             
+            <div className="text-center">
+              <button 
+                type="button"
+                data-testid="button-toggle-mode"
+                className="text-indigo-400 hover:text-indigo-300 text-sm"
+                onClick={() => setIsRegister(!isRegister)}
+              >
+                {isRegister ? "Already have an account? Sign In" : "Don't have an account? Register"}
+              </button>
+            </div>
+
             <div className="relative flex items-center justify-center py-2">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-[#27272a]"></div>
