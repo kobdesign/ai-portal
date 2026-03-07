@@ -109,3 +109,30 @@
   - มี Project Active อยู่กี่ตัว
   - รันเซิร์ฟเวอร์ Preview ไปกี่ชั่วโมง
 - ข้อมูลเหล่านี้สามารถนำไปทำ Report เพื่อเก็บเงิน Partner (ในโมเดล SaaS/PaaS) หรือทำ Chargeback ภายในเครือบริษัทได้
+
+---
+
+## 🔗 การสร้างและให้บริการ API ใหม่แก่ Partner (API Provisioning Workflow)
+*เป้าหมาย: ใช้แพลตฟอร์ม AI นี้ช่วยสร้าง API เส้นใหม่ขึ้นมาอย่างรวดเร็ว ปลอดภัย และเปิดให้ Partner นำไปเชื่อมต่อใช้งานได้ทันที*
+
+หากองค์กรของคุณต้องการสร้าง API ใหม่ (เช่น API ดึงข้อมูลลูกค้า, API ยืนยันตัวตน) เพื่อให้ Partner ภายนอกเรียกใช้งาน สามารถทำได้ผ่าน Flow ต่อไปนี้:
+
+### 1. วาง Spec ของ API (API Design First)
+- เข้าไปที่เมนู **Project Specs**
+- สร้าง User Story ระบุว่าต้องการ API ทำอะไร เช่น *"US-301: สร้าง REST API สำหรับดึงคะแนนสะสม (Loyalty Points) ให้ Partner"*
+- แพลตฟอร์มจะให้ AI ช่วยดราฟต์ **OpenAPI Specification (Swagger)** ออกมาให้เห็นหน้าตาของ Endpoint, Request/Response payload ทันที
+
+### 2. สร้าง Logic เชื่อมต่อระบบหลังบ้าน (Integration & Implementation)
+- ส่งงานเข้าสู่หน้า **Project Lifecycle** แล้วสั่งให้ AI ในเมนู **Agent** เริ่มเขียนโค้ดสำหรับ API เส้นนั้น
+- หาก API ต้องไปดึงข้อมูลจาก Database เก่าหรือ Core Banking ให้เข้าไปที่เมนู **Integrations** เพื่อเชื่อม Data Source
+- AI จะเขียน Data Fetching Logic โดยอิงจาก Security Policy ที่ตั้งไว้ (เช่น ไม่ดึงข้อมูลบัตรประชาชนออกมาเด็ดขาด)
+
+### 3. เปิดการเข้าถึงผ่าน API Gateway (Expose & Rate Limiting)
+เมื่อพัฒนาและเทสต์ API เสร็จแล้ว การเปิดให้ Partner ใช้จะต้องผ่านระบบควบคุม:
+- **Generate API Keys:** ระบบจะสร้าง API Key หรือ OAuth Token เฉพาะสำหรับ Partner รายนั้นๆ
+- **ตั้ง Rate Limit:** กำหนดเงื่อนไขว่า Partner A เรียก API ได้ 100 ครั้งต่อนาที ป้องกันระบบล่ม
+- **API Documentation (Developer Portal):** แพลตฟอร์มสามารถ Generate หน้าคู่มือ API อัตโนมัติ พร้อม Code Snippets (เช่น Python, cURL, Node.js) ให้ Partner นำไปเขียนโค้ดต่อได้ง่ายๆ
+
+### 4. ตรวจสอบการใช้งาน (API Monitoring & Audit Logs)
+- ทุกครั้งที่ Partner เรียกใช้ API ระบบจะบันทึก Log ลงในเมนู **Governance & Audit Logs**
+- สามารถตรวจสอบได้ว่า Partner เรียกข้อมูลของใครไปบ้าง เวลาไหน และ IP อะไร เพื่อความโปร่งใสและปฏิบัติตาม พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล (PDPA) อย่างเคร่งครัด
