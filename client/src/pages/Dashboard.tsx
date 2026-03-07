@@ -72,6 +72,14 @@ export default function Dashboard() {
           <div className="flex items-center gap-4">
             <Button 
               variant="outline"
+              className="bg-[#18181b] border-indigo-500/30 text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10"
+              onClick={() => setLocation("/executive")}
+            >
+              <Building2 size={16} className="mr-2" />
+              C-Level Dashboard
+            </Button>
+            <Button 
+              variant="outline"
               className="bg-transparent border-[#27272a] text-slate-300 hover:text-white hover:bg-white/5"
               onClick={handleLogout}
             >

@@ -7,6 +7,7 @@ import Home from "@/pages/Home";
 import Dashboard from "@/pages/Dashboard";
 import Login from "@/pages/Login";
 import NotFound from "@/pages/not-found";
+import { ExecutiveDashboard } from "@/pages/ExecutiveDashboard";
 import { useEffect, useState } from "react";
 
 function ProtectedRoute({ component: Component, ...rest }: any) {
@@ -29,6 +30,7 @@ function Router() {
     <Switch>
       <Route path="/login" component={Login} />
       <Route path="/" component={() => <ProtectedRoute component={Dashboard} />} />
+      <Route path="/executive" component={() => <ProtectedRoute component={ExecutiveDashboard} />} />
       <Route path="/editor/:id" component={() => <ProtectedRoute component={Home} />} />
       <Route component={NotFound} />
     </Switch>
