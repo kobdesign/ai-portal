@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUp, Sparkles, Loader2, StopCircle, ChevronDown, Paperclip, Database, LayoutTemplate } from "lucide-react";
+import { ArrowUp, Sparkles, Loader2, StopCircle, ChevronDown, Paperclip, Code2, ShieldCheck, Database } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 interface Message {
@@ -19,13 +19,13 @@ export function ChatPanel() {
     {
       id: "1",
       role: "assistant",
-      content: "Hello! I'm your Fullstack AI Agent. I can help you build UI components, connect to databases, or set up external APIs. What are we building today?",
+      content: "สวัสดีครับ! ผมคือ Enterprise AI Agent สำหรับองค์กรไทย \n\nผมสามารถช่วยคุณ:\n• แปลงระบบ Legacy (AS/400, Java เก่า) เป็น Modern Stack\n• สร้าง Dashboard เชื่อมต่อ On-Premise Database\n• เขียนโค้ดโดยคำนึงถึง PDPA Compliance\n\nวันนี้มีโปรเจกต์อะไรให้ผมช่วยทำครับ?",
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [model, setModel] = useState("Claude 3.5 Sonnet");
+  const [model, setModel] = useState("Claude 3.5 (Thai Optimized)");
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -55,7 +55,7 @@ export function ChatPanel() {
       setMessages(prev => [...prev, {
         id: generatingId,
         role: "assistant",
-        content: "Analyzing workspace context and implementing changes...",
+        content: "กำลังวิเคราะห์โครงสร้างองค์กร และตรวจสอบความปลอดภัยข้อมูล...",
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         isGenerating: true
       }]);
@@ -63,7 +63,7 @@ export function ChatPanel() {
       setTimeout(() => {
         setMessages(prev => prev.map(msg => 
           msg.id === generatingId 
-            ? { ...msg, isGenerating: false, content: "I've applied the changes to your project! The code has been updated in the editor and the preview should refresh automatically.\n\nYou can view the new components or let me know if you want to connect a real database next." }
+            ? { ...msg, isGenerating: false, content: "เรียบร้อยครับ! ผมได้ปรับปรุงระบบตามที่คุณต้องการแล้ว โดยได้เพิ่ม Data Masking เข้าไปในส่วนของข้อมูลลูกค้าเพื่อความสอดคล้องกับ PDPA \n\nลองตรวจสอบผลลัพธ์ในหน้าจอ Preview ได้เลยครับ หากต้องการเชื่อมต่อกับ SAP API ให้แจ้งผมได้เลย" }
             : msg
         ));
         setIsGenerating(false);
@@ -84,22 +84,22 @@ export function ChatPanel() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 px-2 flex items-center gap-2 hover:bg-muted/50 text-sm font-medium">
-              <Sparkles size={16} className="text-primary" />
+              <Sparkles size={16} className="text-indigo-400" />
               {model}
               <ChevronDown size={14} className="text-muted-foreground" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-48 bg-[#1e1e24] border-[#27272a]">
-            <DropdownMenuItem onClick={() => setModel("Claude 3.5 Sonnet")}>Claude 3.5 Sonnet</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setModel("GPT-4o")}>GPT-4o</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setModel("Gemini 1.5 Pro")}>Gemini 1.5 Pro</DropdownMenuItem>
+          <DropdownMenuContent align="start" className="w-56 bg-[#1e1e24] border-[#27272a]">
+            <DropdownMenuItem onClick={() => setModel("Claude 3.5 (Thai Optimized)")}>Claude 3.5 (Thai Optimized)</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setModel("Typhoon 1.5 (SCB 10X)")}>Typhoon 1.5 (SCB 10X)</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setModel("GPT-4o (Enterprise)")}>GPT-4o (Enterprise)</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
         <div className="flex items-center gap-2">
-          <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20 hover:bg-primary/10 transition-colors cursor-pointer">
-            <Paperclip size={12} className="mr-1" />
-            3 Files attached
+          <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
+            <ShieldCheck size={12} className="mr-1" />
+            PDPA Ready
           </Badge>
         </div>
       </div>
@@ -114,8 +114,8 @@ export function ChatPanel() {
               <div 
                 className={`p-3.5 rounded-2xl ${
                   msg.role === 'user' 
-                    ? 'bg-primary text-primary-foreground rounded-tr-sm shadow-sm' 
-                    : 'bg-[#18181b] border border-border/40 rounded-tl-sm shadow-sm text-foreground'
+                    ? 'bg-indigo-600 text-white rounded-tr-sm shadow-sm' 
+                    : 'bg-[#18181b] border border-border/40 rounded-tl-sm shadow-sm text-slate-200'
                 }`}
               >
                 <div className="text-[14px] leading-relaxed whitespace-pre-wrap">
@@ -123,8 +123,8 @@ export function ChatPanel() {
                 </div>
                 {msg.isGenerating && (
                   <div className="flex items-center gap-2 mt-3 text-muted-foreground bg-muted/20 p-2 rounded-lg border border-border/20">
-                    <Loader2 size={14} className="animate-spin text-primary" />
-                    <span className="text-xs font-medium">Writing code...</span>
+                    <Loader2 size={14} className="animate-spin text-indigo-400" />
+                    <span className="text-xs font-medium">กำลังเขียนโค้ดและคอมไพล์...</span>
                   </div>
                 )}
               </div>
@@ -138,33 +138,40 @@ export function ChatPanel() {
 
       <div className="p-4 bg-gradient-to-t from-background via-background to-transparent pt-6 border-t border-border/20">
         
-        {/* Quick Actions / Suggestions */}
+        {/* Enterprise Quick Actions */}
         {!isGenerating && messages.length < 3 && (
           <div className="flex gap-2 mb-3 overflow-x-auto scrollbar-none pb-1">
             <button 
-              onClick={() => handleSubmit(undefined, "Set up Supabase authentication")}
+              onClick={() => handleSubmit(undefined, "ช่วยเขียนระบบ Login ที่เชื่อมกับ Corporate Active Directory (AD) ให้หน่อย")}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50 text-xs text-muted-foreground hover:text-foreground hover:bg-muted whitespace-nowrap transition-colors"
+            >
+              <ShieldCheck size={12} className="text-emerald-400" />
+              AD / SSO Login
+            </button>
+            <button 
+              onClick={() => handleSubmit(undefined, "สร้าง Dashboard ดึงข้อมูลจากฐานข้อมูล Oracle On-Premise")}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50 text-xs text-muted-foreground hover:text-foreground hover:bg-muted whitespace-nowrap transition-colors"
             >
               <Database size={12} className="text-blue-400" />
-              Add Supabase Auth
+              Connect Oracle DB
             </button>
             <button 
-              onClick={() => handleSubmit(undefined, "Create a responsive dashboard layout")}
+              onClick={() => handleSubmit(undefined, "ช่วยแปลงไฟล์โค้ด PHP เก่านี้เป็น React + Node.js")}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50 text-xs text-muted-foreground hover:text-foreground hover:bg-muted whitespace-nowrap transition-colors"
             >
-              <LayoutTemplate size={12} className="text-emerald-400" />
-              Dashboard Layout
+              <Code2 size={12} className="text-indigo-400" />
+              Legacy Migration
             </button>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="relative flex flex-col gap-2">
-          <div className="relative w-full flex items-end shadow-sm border border-border/60 rounded-xl bg-[#18181b] focus-within:ring-1 focus-within:ring-primary focus-within:border-primary transition-all">
+          <div className="relative w-full flex items-end shadow-sm border border-border/60 rounded-xl bg-[#18181b] focus-within:ring-1 focus-within:ring-indigo-500 focus-within:border-indigo-500 transition-all">
             <Textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Ask me to build or modify anything..."
+              placeholder="บอกให้ผมสร้างระบบอะไรดีครับ (รองรับภาษาไทย)..."
               className="min-h-[60px] max-h-[250px] w-full resize-none border-0 focus-visible:ring-0 rounded-xl py-3 px-4 bg-transparent shadow-none pr-24 scrollbar-none text-[14px]"
               rows={1}
             />
@@ -176,7 +183,7 @@ export function ChatPanel() {
                 <Button 
                   type="button" 
                   size="icon" 
-                  className="h-8 w-8 rounded-full bg-destructive/10 text-destructive hover:bg-destructive/20 hover:text-destructive transition-colors"
+                  className="h-8 w-8 rounded-full bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors"
                 >
                   <StopCircle size={18} />
                 </Button>
@@ -185,7 +192,7 @@ export function ChatPanel() {
                   type="submit" 
                   size="icon" 
                   disabled={!input.trim()}
-                  className={`h-8 w-8 rounded-full transition-all ${input.trim() ? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-md' : 'bg-muted text-muted-foreground'}`}
+                  className={`h-8 w-8 rounded-full transition-all ${input.trim() ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-md' : 'bg-muted text-muted-foreground'}`}
                 >
                   <ArrowUp size={18} />
                 </Button>
