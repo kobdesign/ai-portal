@@ -8,6 +8,7 @@ import Dashboard from "@/pages/Dashboard";
 import Login from "@/pages/Login";
 import NotFound from "@/pages/not-found";
 import { ExecutiveDashboard } from "@/pages/ExecutiveDashboard";
+import GlobalTopology from "@/pages/GlobalTopology";
 import { useEffect, useState } from "react";
 
 function ProtectedRoute({ component: Component, ...rest }: any) {
@@ -31,6 +32,7 @@ function Router() {
       <Route path="/login" component={Login} />
       <Route path="/" component={() => <ProtectedRoute component={Dashboard} />} />
       <Route path="/executive" component={() => <ProtectedRoute component={ExecutiveDashboard} />} />
+      <Route path="/topology" component={() => <ProtectedRoute component={GlobalTopology} />} />
       <Route path="/editor/:id" component={() => <ProtectedRoute component={Home} />} />
       <Route component={NotFound} />
     </Switch>

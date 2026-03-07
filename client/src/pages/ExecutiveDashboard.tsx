@@ -36,13 +36,13 @@ export function ExecutiveDashboard() {
       <ScrollArea className="flex-1 p-6">
         <div className="max-w-6xl mx-auto space-y-8 pb-10">
           
-          {/* GAP 1: Financial & Resource Intelligence */}
+          {/* Financial & Resource Intelligence */}
           <section className="space-y-4">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20">
                 <DollarSign className="text-emerald-500" size={18} />
               </div>
-              <h2 className="text-lg font-semibold text-white">Financial & AI Token ROI (Gap 1)</h2>
+              <h2 className="text-lg font-semibold text-white">Financial & AI Token ROI</h2>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -76,13 +76,13 @@ export function ExecutiveDashboard() {
             </div>
           </section>
 
-          {/* GAP 3: Human-AI Workforce Dynamics */}
+          {/* Workforce Dynamics */}
           <section className="space-y-4">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded bg-sky-500/10 flex items-center justify-center border border-sky-500/20">
                 <Users className="text-sky-500" size={18} />
               </div>
-              <h2 className="text-lg font-semibold text-white">Workforce Analytics & Upskilling (Gap 3)</h2>
+              <h2 className="text-lg font-semibold text-white">Workforce Analytics & Upskilling</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -147,7 +147,7 @@ export function ExecutiveDashboard() {
             </div>
           </section>
 
-          {/* GAP 2: Architecture Link */}
+          {/* Architecture Link */}
           <section className="bg-gradient-to-r from-purple-500/10 to-transparent border border-purple-500/20 rounded-xl p-6">
              <div className="flex items-start justify-between">
               <div>
@@ -155,14 +155,14 @@ export function ExecutiveDashboard() {
                   <div className="w-8 h-8 rounded bg-purple-500/20 flex items-center justify-center border border-purple-500/30">
                     <BrainCircuit className="text-purple-400" size={18} />
                   </div>
-                  <h2 className="text-lg font-semibold text-white">Architectural Consistency (Gap 2)</h2>
+                  <h2 className="text-lg font-semibold text-white">Architectural Consistency</h2>
                 </div>
                 <p className="text-sm text-slate-400 max-w-2xl mb-4">
                   ป้องกันปัญหา Microservices Hell ด้วยการมองเห็นความเชื่อมโยงของระบบทั้งหมด (Topology Map)
                   พร้อมระบบแจ้งเตือนผลกระทบ (Blast Radius) ก่อนให้ AI แก้ไขโค้ด
                 </p>
                 <Button 
-                  onClick={() => setLocation("/editor/proj-1")}
+                  onClick={() => setLocation("/topology")}
                   className="bg-purple-600 hover:bg-purple-700 text-white"
                 >
                   <Activity size={16} className="mr-2" />
