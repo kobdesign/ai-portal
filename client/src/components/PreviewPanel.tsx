@@ -1,8 +1,32 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Code, MonitorPlay, RefreshCw, Maximize2, TerminalSquare, ExternalLink, Rocket, Info, X, Sparkles, ChevronDown, Server, Box, Cloud, ShieldCheck, Smartphone } from "lucide-react";
+import {
+  Code,
+  MonitorPlay,
+  RefreshCw,
+  Maximize2,
+  TerminalSquare,
+  ExternalLink,
+  Rocket,
+  Info,
+  X,
+  Sparkles,
+  ChevronDown,
+  Server,
+  Box,
+  Cloud,
+  ShieldCheck,
+  Smartphone,
+} from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 
 interface PreviewPanelProps {
   activeTab: "preview" | "code";
@@ -55,14 +79,13 @@ export default function CustomerDashboard() {
     <div className="h-full flex flex-col bg-[#111113] text-slate-300">
       {/* Top Header */}
       <div className="flex items-center justify-between px-4 py-2 bg-[#18181b] border-b border-[#27272a] shadow-sm z-10">
-        
         {/* View Toggles */}
         <div className="flex items-center bg-black/40 rounded-lg p-1 border border-white/5">
           <button
             onClick={() => onTabChange("preview")}
             className={`flex items-center gap-2 px-3 py-1.5 text-[13px] font-medium rounded-md transition-all ${
-              activeTab === "preview" 
-                ? "bg-[#27272a] text-white shadow-sm" 
+              activeTab === "preview"
+                ? "bg-[#27272a] text-white shadow-sm"
                 : "text-slate-400 hover:text-slate-200"
             }`}
           >
@@ -72,8 +95,8 @@ export default function CustomerDashboard() {
           <button
             onClick={() => onTabChange("code")}
             className={`flex items-center gap-2 px-3 py-1.5 text-[13px] font-medium rounded-md transition-all ${
-              activeTab === "code" 
-                ? "bg-[#27272a] text-white shadow-sm" 
+              activeTab === "code"
+                ? "bg-[#27272a] text-white shadow-sm"
                 : "text-slate-400 hover:text-slate-200"
             }`}
           >
@@ -106,18 +129,25 @@ export default function CustomerDashboard() {
 
               <div className="flex items-center w-80 max-w-md bg-black/40 rounded-lg border border-white/5 overflow-hidden">
                 <div className="px-3 py-1.5 bg-black/20 text-slate-500 border-r border-white/5 flex items-center justify-center">
-                  <RefreshCw size={12} className={`cursor-pointer hover:text-slate-300 ${isRefreshing ? 'animate-spin' : ''}`} onClick={handleRefresh} />
+                  <RefreshCw
+                    size={12}
+                    className={`cursor-pointer hover:text-slate-300 ${isRefreshing ? "animate-spin" : ""}`}
+                    onClick={handleRefresh}
+                  />
                 </div>
                 <div className="px-3 py-1 text-xs text-slate-400 font-mono flex-1">
                   localhost:5000
                 </div>
-                <a href="#" className="px-3 py-1.5 text-slate-500 hover:text-slate-300 hover:bg-white/5">
+                <a
+                  href="#"
+                  className="px-3 py-1.5 text-slate-500 hover:text-slate-300 hover:bg-white/5"
+                >
                   <ExternalLink size={12} />
                 </a>
               </div>
             </>
           )}
-          
+
           <div className="flex items-center gap-2 border-l border-white/10 pl-3">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -127,8 +157,13 @@ export default function CustomerDashboard() {
                   <ChevronDown size={14} className="opacity-70" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 bg-[#18181b] border-[#27272a] text-slate-200">
-                <DropdownMenuLabel className="text-xs text-slate-500">Enterprise Deployment</DropdownMenuLabel>
+              <DropdownMenuContent
+                align="end"
+                className="w-56 bg-[#18181b] border-[#27272a] text-slate-200"
+              >
+                <DropdownMenuLabel className="text-xs text-slate-500">
+                  Enterprise Deployment
+                </DropdownMenuLabel>
                 <DropdownMenuSeparator className="bg-[#27272a]" />
                 <DropdownMenuItem className="gap-2 cursor-pointer hover:bg-[#27272a] focus:bg-[#27272a]">
                   <Server size={14} className="text-blue-400" />
@@ -155,13 +190,17 @@ export default function CustomerDashboard() {
             {previewMode === "web" ? (
               /* Web Preview */
               <div className="w-full h-full flex items-center justify-center">
-                 <div className="text-center">
-                    <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4 ring-8 ring-indigo-50">
-                      <MonitorPlay size={32} />
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-2">Enterprise Web App Preview</h3>
-                    <p className="text-sm text-slate-500 mb-6">Secured view simulating internal corporate network.</p>
-                 </div>
+                <div className="text-center">
+                  <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4 ring-8 ring-indigo-50">
+                    <MonitorPlay size={32} />
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">
+                    Enterprise Web App Preview
+                  </h3>
+                  <p className="text-sm text-slate-500 mb-6">
+                    Secured view simulating internal corporate network.
+                  </p>
+                </div>
               </div>
             ) : (
               /* Mobile Preview (Flutter) */
@@ -171,7 +210,7 @@ export default function CustomerDashboard() {
                   <div className="absolute top-0 inset-x-0 h-6 bg-black z-20 flex justify-center">
                     <div className="w-24 h-4 bg-black rounded-b-xl"></div>
                   </div>
-                  
+
                   {/* Flutter App Mockup */}
                   <div className="flex-1 bg-white pt-8 flex flex-col relative z-10">
                     <div className="bg-indigo-600 text-white px-4 py-3 flex items-center shadow-md">
@@ -179,11 +218,26 @@ export default function CustomerDashboard() {
                     </div>
                     <div className="flex-1 p-4 bg-slate-50 flex flex-col items-center justify-center text-center">
                       <div className="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mb-4 text-blue-500">
-                        <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                        <svg
+                          viewBox="0 0 24 24"
+                          width="32"
+                          height="32"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          fill="none"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                          <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                          <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                        </svg>
                       </div>
                       <h4 className="font-bold text-slate-800 mb-1">Flutter Mobile Build</h4>
-                      <p className="text-xs text-slate-500 mb-4 px-4">Live reloading Dart code directly to device emulator.</p>
-                      
+                      <p className="text-xs text-slate-500 mb-4 px-4">
+                        Live reloading Dart code directly to device emulator.
+                      </p>
+
                       <div className="w-full space-y-2 mt-4">
                         <div className="h-10 bg-white border border-slate-200 rounded-lg flex items-center px-3 shadow-sm">
                           <div className="w-4 h-4 rounded-full bg-indigo-100 mr-3"></div>
@@ -203,7 +257,7 @@ export default function CustomerDashboard() {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Flutter Controls Overlay */}
                 <div className="absolute bottom-6 right-6 flex flex-col gap-2">
                   <div className="bg-white/90 backdrop-blur text-slate-800 text-[10px] font-medium px-3 py-1.5 rounded-full shadow-lg border border-slate-200 flex items-center gap-1.5">
@@ -223,34 +277,62 @@ export default function CustomerDashboard() {
                 <X size={12} className="ml-2 text-slate-500 hover:text-white cursor-pointer" />
               </div>
             </div>
-            
+
             {/* Editor Content */}
             <ScrollArea className="flex-1">
               <pre className="p-4 text-[13px] font-mono leading-relaxed text-[#abb2bf] whitespace-pre">
                 <code>
-                  {mockCode.split('\n').map((line, i) => (
+                  {mockCode.split("\n").map((line, i) => (
                     <div key={i} className="flex hover:bg-white/5 px-2 rounded -mx-2">
-                      <span className="w-8 text-right pr-4 text-[#4b5263] select-none">{i + 1}</span>
-                      <span dangerouslySetInnerHTML={{
-                        __html: line
-                          .replace(/import|from|export|default|const|let|return/g, '<span class="text-[#c678dd]">$&</span>')
-                          .replace(/useState|Card|CardContent|CardHeader|CardTitle|LineChart|Line|XAxis|YAxis|CartesianGrid|Tooltip|ResponsiveContainer/g, '<span class="text-[#e5c07b]">$&</span>')
-                          .replace(/className|data|name|value|activeTab|stroke|strokeWidth/g, '<span class="text-[#d19a66]">$&</span>')
-                          .replace(/'[^']*'/g, '<span class="text-[#98c379]">$&</span>')
-                          .replace(/"[^"]*"/g, '<span class="text-[#98c379]">$&</span>')
-                          .replace(/<([A-Z][a-zA-Z0-9]*)/g, '<<span class="text-[#e06c75]">$1</span>')
-                          .replace(/<\/([A-Z][a-zA-Z0-9]*)/g, '</<span class="text-[#e06c75]">$1</span>')
-                          .replace(/<([a-z][a-zA-Z0-9]*)/g, '<<span class="text-[#e06c75]">$1</span>')
-                          .replace(/<\/([a-z][a-zA-Z0-9]*)/g, '</<span class="text-[#e06c75]">$1</span>')
-                          .replace(/\{([^}]+)\}/g, '<span class="text-[#56b6c2]">{</span>$1<span class="text-[#56b6c2]">}</span>')
-                          .replace(/\/\/.*$/g, '<span class="text-[#5c6370] italic">$&</span>')
-                      }} />
+                      <span className="w-8 text-right pr-4 text-[#4b5263] select-none">
+                        {i + 1}
+                      </span>
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: line
+                            .replace(
+                              /import|from|export|default|const|let|return/g,
+                              '<span class="text-[#c678dd]">$&</span>',
+                            )
+                            .replace(
+                              /useState|Card|CardContent|CardHeader|CardTitle|LineChart|Line|XAxis|YAxis|CartesianGrid|Tooltip|ResponsiveContainer/g,
+                              '<span class="text-[#e5c07b]">$&</span>',
+                            )
+                            .replace(
+                              /className|data|name|value|activeTab|stroke|strokeWidth/g,
+                              '<span class="text-[#d19a66]">$&</span>',
+                            )
+                            .replace(/'[^']*'/g, '<span class="text-[#98c379]">$&</span>')
+                            .replace(/"[^"]*"/g, '<span class="text-[#98c379]">$&</span>')
+                            .replace(
+                              /<([A-Z][a-zA-Z0-9]*)/g,
+                              '<<span class="text-[#e06c75]">$1</span>',
+                            )
+                            .replace(
+                              /<\/([A-Z][a-zA-Z0-9]*)/g,
+                              '</<span class="text-[#e06c75]">$1</span>',
+                            )
+                            .replace(
+                              /<([a-z][a-zA-Z0-9]*)/g,
+                              '<<span class="text-[#e06c75]">$1</span>',
+                            )
+                            .replace(
+                              /<\/([a-z][a-zA-Z0-9]*)/g,
+                              '</<span class="text-[#e06c75]">$1</span>',
+                            )
+                            .replace(
+                              /\{([^}]+)\}/g,
+                              '<span class="text-[#56b6c2]">{</span>$1<span class="text-[#56b6c2]">}</span>',
+                            )
+                            .replace(/\/\/.*$/g, '<span class="text-[#5c6370] italic">$&</span>'),
+                        }}
+                      />
                     </div>
                   ))}
                 </code>
               </pre>
             </ScrollArea>
-            
+
             {/* Ask AI Floating Button inside code editor */}
             <button className="absolute bottom-6 right-6 flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-full shadow-lg hover:shadow-indigo-500/25 hover:-translate-y-0.5 transition-all text-sm font-medium border border-white/10">
               <Sparkles size={16} />
@@ -264,19 +346,29 @@ export default function CustomerDashboard() {
           <div className="h-48 border-t border-[#27272a] bg-[#18181b] flex flex-col shrink-0">
             <div className="flex items-center justify-between px-4 py-1.5 border-b border-[#27272a]">
               <div className="flex gap-4 text-xs font-medium">
-                <button className="text-white border-b border-white pb-1 -mb-[7px]">Terminal</button>
+                <button className="text-white border-b border-white pb-1 -mb-[7px]">
+                  Terminal
+                </button>
                 <button className="text-slate-500 hover:text-slate-300">Test Output (QA)</button>
                 <button className="text-slate-500 hover:text-slate-300">Security Audit</button>
               </div>
-              <button onClick={() => setShowTerminal(false)} className="text-slate-500 hover:text-white">
+              <button
+                onClick={() => setShowTerminal(false)}
+                className="text-slate-500 hover:text-white"
+              >
                 <X size={14} />
               </button>
             </div>
             <ScrollArea className="flex-1 p-2 font-mono text-[12px] text-slate-300">
               <div className="text-emerald-400">✓ Compiled successfully in 124ms</div>
-              <div className="text-indigo-400 mt-1">✓ AI generated 4 Cypress e2e tests automatically.</div>
+              <div className="text-indigo-400 mt-1">
+                ✓ AI generated 4 Cypress e2e tests automatically.
+              </div>
               <div className="mt-2 text-slate-400">
-                <span className="text-emerald-400">➜</span>  Local:   <a href="#" className="text-cyan-400 hover:underline">http://localhost:5000/</a>
+                <span className="text-emerald-400">➜</span> Local:{" "}
+                <a href="#" className="text-cyan-400 hover:underline">
+                  http://localhost:5000/
+                </a>
               </div>
               <div className="mt-2 text-emerald-400 flex items-start gap-2">
                 <ShieldCheck size={14} className="shrink-0 mt-0.5" />
@@ -291,14 +383,16 @@ export default function CustomerDashboard() {
       <div className="h-6 bg-indigo-600 flex items-center justify-between px-3 text-white text-[11px] font-medium z-10 shrink-0">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5 cursor-pointer hover:bg-black/20 px-1.5 py-0.5 rounded">
-            <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor"><path d="M9.5 7.5L5.7 3.7 4.3 5.1 6.6 7.5 4.3 9.9 5.7 11.3 9.5 7.5Z"/></svg>
+            <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor">
+              <path d="M9.5 7.5L5.7 3.7 4.3 5.1 6.6 7.5 4.3 9.9 5.7 11.3 9.5 7.5Z" />
+            </svg>
             main*
           </div>
           <div className="flex items-center gap-1.5 cursor-pointer hover:bg-black/20 px-1.5 py-0.5 rounded">
             <RefreshCw size={10} />
             Pending Approval (1)
           </div>
-          <button 
+          <button
             className="flex items-center gap-1.5 cursor-pointer hover:bg-black/20 px-1.5 py-0.5 rounded transition-colors"
             onClick={() => setShowTerminal(!showTerminal)}
           >

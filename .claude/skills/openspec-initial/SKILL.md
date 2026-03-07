@@ -59,14 +59,14 @@ Run **openspec init** to initialize OpenSpec in a project: creates the `openspec
 
 ## Different Environments
 
-| Scenario | Command |
-|----------|---------|
-| **Interactive** | `openspec init` |
-| **Claude + Cursor** | `openspec init --tools claude,cursor` |
-| **All tools** | `openspec init --tools all` |
-| **Specific directory** | `openspec init ./my-project` |
+| Scenario                 | Command                                |
+| ------------------------ | -------------------------------------- |
+| **Interactive**          | `openspec init`                        |
+| **Claude + Cursor**      | `openspec init --tools claude,cursor`  |
+| **All tools**            | `openspec init --tools all`            |
+| **Specific directory**   | `openspec init ./my-project`           |
 | **CI / non-interactive** | `openspec init --tools claude --force` |
-| **Skip tool config** | `openspec init --tools none` |
+| **Skip tool config**     | `openspec init --tools none`           |
 
 ## Troubleshooting
 

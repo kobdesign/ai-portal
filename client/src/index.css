@@ -8,7 +8,7 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  
+
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
   --color-card: hsl(var(--card));
@@ -28,9 +28,9 @@
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
-  
-  --font-sans: 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
 }
 
 /* Base Light Mode - We force dark mode by default but keep variables for completeness */
@@ -62,38 +62,38 @@
   --background: 222.2 47.4% 11.2%;
   /* Text: #F1F5F9 */
   --foreground: 210 40% 96.1%;
-  
+
   /* Surface: #1E293B */
   --card: 215.3 32.6% 17.5%;
   --card-foreground: 210 40% 96.1%;
-  
+
   --popover: 215.3 32.6% 17.5%;
   --popover-foreground: 210 40% 96.1%;
-  
+
   /* Primary: #6366F1 */
   --primary: 238.7 83.5% 66.7%;
   --primary-foreground: 0 0% 100%;
-  
+
   /* Secondary: #8B5CF6 */
   --secondary: 258.3 89.5% 66.3%;
   --secondary-foreground: 0 0% 100%;
-  
+
   /* Muted / Surface elements */
   --muted: 217.2 32.6% 17.5%;
   --muted-foreground: 215 20.2% 65.1%;
-  
+
   /* Accent: #10B981 */
   --accent: 160.1 84.1% 39.4%;
   --accent-foreground: 0 0% 100%;
-  
+
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 210 40% 98%;
-  
+
   /* Border: Slate 700ish */
   --border: 217.2 32.6% 17.5%;
   --input: 217.2 32.6% 17.5%;
   --ring: 238.7 83.5% 66.7%;
-  
+
   --code-bg: 0 0% 11.8%;
 }
 
@@ -125,10 +125,25 @@
 }
 
 /* Syntax Highlighting Mockup Classes */
-.syntax-keyword { color: #c678dd; }
-.syntax-function { color: #61afef; }
-.syntax-string { color: #98c379; }
-.syntax-comment { color: #5c6370; font-style: italic; }
-.syntax-operator { color: #56b6c2; }
-.syntax-variable { color: #e06c75; }
-.syntax-property { color: #d19a66; }
+.syntax-keyword {
+  color: #c678dd;
+}
+.syntax-function {
+  color: #61afef;
+}
+.syntax-string {
+  color: #98c379;
+}
+.syntax-comment {
+  color: #5c6370;
+  font-style: italic;
+}
+.syntax-operator {
+  color: #56b6c2;
+}
+.syntax-variable {
+  color: #e06c75;
+}
+.syntax-property {
+  color: #d19a66;
+}

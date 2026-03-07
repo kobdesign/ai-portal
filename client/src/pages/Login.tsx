@@ -6,13 +6,15 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-[#111113] flex items-center justify-center relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-      
+
       <div className="w-full max-w-md p-8 relative z-10">
         <div className="text-center mb-8">
           <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-[#18181b] border border-border/40 mb-6 shadow-xl">
             <Building2 size={32} className="text-indigo-500" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Enterprise AI Studio</h1>
+          <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">
+            Enterprise AI Studio
+          </h1>
           <p className="text-slate-400 text-sm">Secure Developer Workspace</p>
         </div>
 
@@ -20,13 +22,17 @@ export default function Login() {
           <div className="space-y-6">
             <div className="text-center space-y-2">
               <h2 className="text-lg font-semibold text-white">Welcome</h2>
-              <p className="text-sm text-slate-400">Sign in with your account to access the workspace</p>
+              <p className="text-sm text-slate-400">
+                Sign in with your account to access the workspace
+              </p>
             </div>
 
-            <Button 
+            <Button
               data-testid="button-login"
               className="w-full bg-indigo-600 hover:bg-indigo-700 text-white h-11 font-medium transition-all shadow-[0_0_20px_rgba(79,70,229,0.2)]"
-              onClick={() => { window.location.href = "/api/login"; }}
+              onClick={() => {
+                window.location.href = "/api/login";
+              }}
             >
               <Lock size={16} className="mr-2" />
               Sign In to Workspace
@@ -54,7 +60,7 @@ export default function Login() {
             </div>
           </div>
         </Card>
-        
+
         <p className="text-center text-xs text-slate-500 mt-8">
           By signing in, you agree to our Enterprise Security Policies & PDPA Guidelines.
         </p>

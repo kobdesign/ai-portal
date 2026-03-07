@@ -1,7 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Search, Database, Building2, Server, KeySquare, Layers, CheckCircle2, Workflow, TerminalSquare } from "lucide-react";
+import {
+  Search,
+  Database,
+  Building2,
+  Server,
+  KeySquare,
+  Layers,
+  CheckCircle2,
+  Workflow,
+  TerminalSquare,
+} from "lucide-react";
 
 export function IntegrationsPanel() {
   const integrations = [
@@ -12,7 +22,7 @@ export function IntegrationsPanel() {
       description: "Auto-generate REST/GraphQL wrappers for old SOAP/XML-RPC APIs",
       icon: <Workflow className="text-amber-500" size={24} />,
       status: "available",
-      isEnterprise: true
+      isEnterprise: true,
     },
     {
       id: "mainframe",
@@ -21,7 +31,7 @@ export function IntegrationsPanel() {
       description: "Connect AI to Mainframe terminals for automated scraping/migration",
       icon: <TerminalSquare className="text-emerald-500" size={24} />,
       status: "available",
-      isEnterprise: true
+      isEnterprise: true,
     },
     {
       id: "oracle",
@@ -30,7 +40,7 @@ export function IntegrationsPanel() {
       description: "Securely connect to internal Oracle databases via encrypted tunnel",
       icon: <Database className="text-red-500" size={24} />,
       status: "available",
-      isEnterprise: true
+      isEnterprise: true,
     },
     {
       id: "sap",
@@ -39,7 +49,7 @@ export function IntegrationsPanel() {
       description: "Integrate with SAP Modules (FI, CO, MM) via OData/RFC",
       icon: <Building2 className="text-blue-500" size={24} />,
       status: "available",
-      isEnterprise: true
+      isEnterprise: true,
     },
     {
       id: "ad",
@@ -48,8 +58,8 @@ export function IntegrationsPanel() {
       description: "Single Sign-On (SSO) with Microsoft Azure AD / On-Premise",
       icon: <KeySquare className="text-cyan-500" size={24} />,
       status: "connected",
-      isEnterprise: true
-    }
+      isEnterprise: true,
+    },
   ];
 
   return (
@@ -57,14 +67,21 @@ export function IntegrationsPanel() {
       <div className="p-4 border-b border-border/40 bg-card">
         <h2 className="text-lg font-semibold mb-1 flex items-center gap-2">
           Enterprise Integrations
-          <span className="px-1.5 py-0.5 text-[10px] bg-indigo-500/20 text-indigo-400 rounded uppercase font-bold tracking-wider">Pro</span>
+          <span className="px-1.5 py-0.5 text-[10px] bg-indigo-500/20 text-indigo-400 rounded uppercase font-bold tracking-wider">
+            Pro
+          </span>
         </h2>
-        <p className="text-sm text-muted-foreground mb-4">Connect legacy systems and corporate infrastructure.</p>
-        
+        <p className="text-sm text-muted-foreground mb-4">
+          Connect legacy systems and corporate infrastructure.
+        </p>
+
         <div className="relative">
-          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-          <Input 
-            placeholder="Search enterprise systems..." 
+          <Search
+            size={16}
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+          />
+          <Input
+            placeholder="Search enterprise systems..."
             className="pl-9 bg-[#18181b] border-border/40 focus-visible:ring-indigo-500/50"
           />
         </div>
@@ -73,14 +90,14 @@ export function IntegrationsPanel() {
       <ScrollArea className="flex-1 p-4">
         <div className="space-y-3">
           {integrations.map((integration) => (
-            <div 
-              key={integration.id} 
+            <div
+              key={integration.id}
               className="flex flex-col p-4 rounded-xl border border-border/40 bg-[#18181b] hover:border-indigo-500/30 transition-colors group cursor-pointer relative overflow-hidden"
             >
               {integration.isEnterprise && (
-                 <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-indigo-500/10 to-transparent opacity-50" />
+                <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-indigo-500/10 to-transparent opacity-50" />
               )}
-              
+
               <div className="flex items-start justify-between mb-2 relative z-10">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-lg bg-[#111113] flex items-center justify-center border border-border/60 shadow-sm group-hover:scale-105 transition-transform">
@@ -98,13 +115,21 @@ export function IntegrationsPanel() {
                     </span>
                   </div>
                 </div>
-                
+
                 {integration.status === "connected" ? (
-                  <Button variant="outline" size="sm" className="h-7 text-xs border-emerald-500/30 text-emerald-500 hover:bg-emerald-500/10">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-xs border-emerald-500/30 text-emerald-500 hover:bg-emerald-500/10"
+                  >
                     Configured
                   </Button>
                 ) : (
-                  <Button variant="secondary" size="sm" className="h-7 text-xs bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20">
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="h-7 text-xs bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20"
+                  >
                     Connect
                   </Button>
                 )}

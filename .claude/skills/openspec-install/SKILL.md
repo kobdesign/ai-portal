@@ -48,15 +48,15 @@ Install the [OpenSpec CLI](https://github.com/Fission-AI/OpenSpec) so that `open
 
 ## Different Environments
 
-| Environment | Command |
-|-------------|---------|
-| **npm** | `npm install -g @fission-ai/openspec@latest` |
-| **pnpm** | `pnpm add -g @fission-ai/openspec@latest` |
-| **yarn** | `yarn global add @fission-ai/openspec@latest` |
-| **bun** | `bun add -g @fission-ai/openspec@latest` |
-| **nix (one-time)** | `nix run github:Fission-AI/OpenSpec -- init` |
-| **nix (persistent)** | `nix profile install github:Fission-AI/OpenSpec` |
-| **CI** | `npm install -g @fission-ai/openspec@latest` in a cacheable step |
+| Environment          | Command                                                          |
+| -------------------- | ---------------------------------------------------------------- |
+| **npm**              | `npm install -g @fission-ai/openspec@latest`                     |
+| **pnpm**             | `pnpm add -g @fission-ai/openspec@latest`                        |
+| **yarn**             | `yarn global add @fission-ai/openspec@latest`                    |
+| **bun**              | `bun add -g @fission-ai/openspec@latest`                         |
+| **nix (one-time)**   | `nix run github:Fission-AI/OpenSpec -- init`                     |
+| **nix (persistent)** | `nix profile install github:Fission-AI/OpenSpec`                 |
+| **CI**               | `npm install -g @fission-ai/openspec@latest` in a cacheable step |
 
 ## Troubleshooting
 

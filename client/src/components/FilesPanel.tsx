@@ -7,7 +7,9 @@ export function FilesPanel() {
     <div className="h-full flex flex-col bg-background/50">
       <div className="p-4 border-b border-border/40 bg-card flex flex-col gap-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Explorer</h2>
+          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+            Explorer
+          </h2>
           <div className="flex gap-1">
             <button className="p-1.5 text-muted-foreground hover:text-foreground rounded-md hover:bg-muted/50 transition-colors">
               <Plus size={16} />
@@ -15,9 +17,12 @@ export function FilesPanel() {
           </div>
         </div>
         <div className="relative">
-          <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
-          <Input 
-            placeholder="Search files..." 
+          <Search
+            size={14}
+            className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground"
+          />
+          <Input
+            placeholder="Search files..."
             className="h-8 pl-8 text-xs bg-[#18181b] border-border/40 focus-visible:ring-primary/50"
           />
         </div>

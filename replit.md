@@ -1,9 +1,11 @@
 # OpenSpec - Enterprise AI-Powered Development Platform
 
 ## Overview
+
 An enterprise AI development workspace that helps organizations manage the software development lifecycle. Features include project management, AI-assisted coding, specification tracking, lifecycle management, and enterprise topology visualization.
 
 ## Architecture
+
 - **Frontend**: React + Vite + TailwindCSS + shadcn/ui
 - **Backend**: Express.js + TypeScript
 - **Database**: PostgreSQL with Drizzle ORM
@@ -12,6 +14,7 @@ An enterprise AI development workspace that helps organizations manage the softw
 - **State Management**: TanStack React Query
 
 ## Key Files
+
 - `shared/schema.ts` - Database schema (re-exports auth models, defines projects)
 - `shared/models/auth.ts` - Auth schema (users, sessions tables - DO NOT MODIFY)
 - `server/db.ts` - Database connection (Drizzle + pg pool)
@@ -23,6 +26,7 @@ An enterprise AI development workspace that helps organizations manage the softw
 - `client/src/App.tsx` - Main app with routing and auth protection
 
 ## Pages
+
 - `/` - Landing/Login page (unauthenticated) or Dashboard (authenticated)
 - `/login` - Landing page with sign-in button
 - `/executive` - Executive C-Level metrics dashboard (protected)
@@ -30,13 +34,16 @@ An enterprise AI development workspace that helps organizations manage the softw
 - `/editor/:id` - Project editor/workspace (protected)
 
 ## API Endpoints
+
 ### Auth (Replit Auth - DO NOT MODIFY)
+
 - `GET /api/login` - Begin login flow (redirects to Replit OIDC)
 - `GET /api/callback` - OIDC callback
 - `GET /api/logout` - Logout and end session
 - `GET /api/auth/user` - Get current authenticated user
 
 ### Projects
+
 - `GET /api/projects` - List user's projects
 - `GET /api/projects/:id` - Get single project
 - `POST /api/projects` - Create project
@@ -44,6 +51,7 @@ An enterprise AI development workspace that helps organizations manage the softw
 - `DELETE /api/projects/:id` - Delete project
 
 ## Database Tables
+
 - `users` - id (varchar PK), email, first_name, last_name, profile_image_url, created_at, updated_at (managed by Replit Auth)
 - `sessions` - sid (varchar PK), sess (jsonb), expire (managed by Replit Auth)
 - `projects` - id (serial PK), name, description, type, status, user_id (varchar), created_at, updated_at

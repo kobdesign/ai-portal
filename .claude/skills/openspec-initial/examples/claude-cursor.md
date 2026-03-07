@@ -6,6 +6,7 @@ openspec init --tools claude,cursor
 ```
 
 Creates:
+
 - `openspec/` (specs, changes, config)
 - `.claude/skills/` (Claude Code skill files)
 - `.cursor/rules/` (Cursor rules)

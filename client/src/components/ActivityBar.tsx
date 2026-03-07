@@ -1,4 +1,19 @@
-import { MessageSquare, FolderCode, Blocks, Settings, Zap, ShieldCheck, DatabaseZap, GitMerge, BookOpen, UserCheck, FileJson2, IterationCcw, Rocket, Network } from "lucide-react";
+import {
+  MessageSquare,
+  FolderCode,
+  Blocks,
+  Settings,
+  Zap,
+  ShieldCheck,
+  DatabaseZap,
+  GitMerge,
+  BookOpen,
+  UserCheck,
+  FileJson2,
+  IterationCcw,
+  Rocket,
+  Network,
+} from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { SidebarTab } from "@/pages/Home";
 
@@ -23,9 +38,7 @@ export function ActivityBar({ active, onChange }: ActivityBarProps) {
     { id: "security", icon: ShieldCheck, label: "Security & PDPA" },
   ] as const;
 
-  const bottomItems = [
-    { id: "settings", icon: Settings, label: "Workspace Settings" },
-  ] as const;
+  const bottomItems = [{ id: "settings", icon: Settings, label: "Workspace Settings" }] as const;
 
   return (
     <div className="w-14 h-full flex flex-col items-center py-4 bg-[#18181b] border-r border-border/40 justify-between shrink-0 overflow-y-auto overflow-x-hidden scrollbar-none">
@@ -43,8 +56,8 @@ export function ActivityBar({ active, onChange }: ActivityBarProps) {
                 <button
                   onClick={() => onChange(item.id as SidebarTab)}
                   className={`relative p-2.5 rounded-xl transition-all duration-200 shrink-0 ${
-                    isActive 
-                      ? "text-indigo-400 bg-indigo-500/10" 
+                    isActive
+                      ? "text-indigo-400 bg-indigo-500/10"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                   }`}
                 >
@@ -72,7 +85,9 @@ export function ActivityBar({ active, onChange }: ActivityBarProps) {
                 <button
                   onClick={() => onChange(item.id as SidebarTab)}
                   className={`p-2.5 rounded-xl transition-all ${
-                    isActive ? "text-indigo-400 bg-indigo-500/10" : "text-muted-foreground hover:text-foreground"
+                    isActive
+                      ? "text-indigo-400 bg-indigo-500/10"
+                      : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   <Icon size={22} />

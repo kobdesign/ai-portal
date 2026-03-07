@@ -5,12 +5,14 @@
 ---
 
 ## 1. Project Spec (มองในมุมของ "Business & Product")
-*คำถามหลัก: "ระบบนี้ต้องทำอะไรได้บ้าง?" (What to build)*
+
+_คำถามหลัก: "ระบบนี้ต้องทำอะไรได้บ้าง?" (What to build)_
 
 หน้า **Project Spec** ทำหน้าที่เปรียบเสมือน **Product Backlog** หรือเอกสาร Requirement ของระบบ:
+
 - **มุมมอง (Perspective):** เน้นที่โครงสร้างของ Requirement (Epic -> User Story -> Acceptance Criteria)
 - **กลุ่มผู้ใช้หลัก:** Product Owner (PO), Business Analyst (BA), Project Manager
-- **สิ่งที่แสดงผล:** 
+- **สิ่งที่แสดงผล:**
   - ความต้องการทางธุรกิจ เช่น "ผู้ใช้ต้องสามารถ Login ด้วยบัตรประชาชนได้"
   - ลำดับความสำคัญ (Priority)
   - ขอบเขตของงาน (Scope)
@@ -19,9 +21,11 @@
 ---
 
 ## 2. Project Lifecycle (มองในมุมของ "Development & Execution")
-*คำถามหลัก: "ตอนนี้งานชิ้นนั้น กำลังถูกพัฒนาอยู่ในขั้นตอนไหน?" (How it is being built)*
+
+_คำถามหลัก: "ตอนนี้งานชิ้นนั้น กำลังถูกพัฒนาอยู่ในขั้นตอนไหน?" (How it is being built)_
 
 หน้า **Project Lifecycle** ทำหน้าที่เปรียบเสมือน **Kanban Board / CI-CD Pipeline Monitor** ที่แสดงการไหลของงาน (Workflow):
+
 - **มุมมอง (Perspective):** เน้นที่สถานะการผลิตโค้ด (Explore -> Design -> Implement -> Test -> Deploy)
 - **กลุ่มผู้ใช้หลัก:** Developer, Tech Lead, QA, AI Agent
 - **สิ่งที่แสดงผล:**
@@ -41,7 +45,8 @@
 3. ใน 1 Feature ของ Lifecycle อาจจะผูกกับหลาย User Story ในหน้า Spec ก็ได้
 
 **ตัวอย่างเพื่อให้เห็นภาพ:**
+
 - สมมติคุณเปิดหน้า **Spec** คุณจะเห็นว่ามีฟีเจอร์ "ทำระบบ Export PDF" ค้างอยู่ใน Backlog (แสดงว่าธุรกิจอยากได้สิ่งนี้)
-- แต่ฟีเจอร์นี้อาจจะ **ยังไม่โผล่** ในหน้า **Lifecycle** เลยก็ได้ เพราะทีม Dev / AI ยังไม่ได้เริ่มลงมือทำ (Explore/Ideate) 
+- แต่ฟีเจอร์นี้อาจจะ **ยังไม่โผล่** ในหน้า **Lifecycle** เลยก็ได้ เพราะทีม Dev / AI ยังไม่ได้เริ่มลงมือทำ (Explore/Ideate)
 
 ดังนั้น การแยกสองหน้านี้ออกจากกัน จะตอบโจทย์ Enterprise มากกว่า เพราะฝั่ง Business จะได้มีที่สำหรับวางแผน Requirement โดยไม่ต้องสนใจความปวดหัวเรื่องกระบวนการพัฒนา (Lifecycle) ในขณะที่ฝั่ง Tech ก็โฟกัสแค่สเตปการสร้างซอฟต์แวร์ครับ

@@ -25,11 +25,11 @@ Use **`/opsx:verify`** to validate that the implementation matches the change ar
 
 2. **Three verification dimensions**
 
-   | Dimension | What it validates |
-   |-----------|-------------------|
+   | Dimension        | What it validates                                               |
+   | ---------------- | --------------------------------------------------------------- |
    | **Completeness** | All tasks done, all requirements implemented, scenarios covered |
-   | **Correctness** | Implementation matches spec intent, edge cases handled |
-   | **Coherence** | Design decisions reflected in code, patterns consistent |
+   | **Correctness**  | Implementation matches spec intent, edge cases handled          |
+   | **Coherence**    | Design decisions reflected in code, patterns consistent         |
 
 3. **Review the report**
    - **CRITICAL**: Must fix before archiving.

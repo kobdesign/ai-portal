@@ -4,7 +4,18 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus, Search, Layers, Clock, Smartphone, Server, FileCode2, LogOut, Building2, Trash2 } from "lucide-react";
+import {
+  Plus,
+  Search,
+  Layers,
+  Clock,
+  Smartphone,
+  Server,
+  FileCode2,
+  LogOut,
+  Building2,
+  Trash2,
+} from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -18,9 +29,9 @@ const typeIcons: Record<string, any> = {
 
 const statusColors: Record<string, string> = {
   "In Progress": "bg-amber-500/10 text-amber-400 border-amber-500/20",
-  "Completed": "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-  "Planning": "bg-slate-500/10 text-slate-400 border-slate-500/20",
-  "Maintained": "bg-purple-500/10 text-purple-400 border-purple-500/20",
+  Completed: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+  Planning: "bg-slate-500/10 text-slate-400 border-slate-500/20",
+  Maintained: "bg-purple-500/10 text-purple-400 border-purple-500/20",
 };
 
 function formatTimeAgo(date: string | Date) {
@@ -69,7 +80,11 @@ export default function Dashboard() {
       toast({ title: "Project created successfully" });
     },
     onError: (error: any) => {
-      toast({ title: "Failed to create project", description: error.message, variant: "destructive" });
+      toast({
+        title: "Failed to create project",
+        description: error.message,
+        variant: "destructive",
+      });
     },
   });
 
@@ -89,8 +104,8 @@ export default function Dashboard() {
     createMutation.mutate(newProject);
   };
 
-  const filteredProjects = projects.filter(p => 
-    p.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredProjects = projects.filter((p) =>
+    p.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
@@ -99,22 +114,27 @@ export default function Dashboard() {
         <div className="flex justify-between items-end mb-12">
           <div className="flex items-center gap-4">
             {user?.profileImageUrl && (
-              <img 
-                src={user.profileImageUrl} 
-                alt="Profile" 
+              <img
+                src={user.profileImageUrl}
+                alt="Profile"
                 className="w-12 h-12 rounded-full border-2 border-indigo-500/30"
                 data-testid="img-avatar"
               />
             )}
             <div>
-              <h1 data-testid="text-welcome" className="text-3xl font-bold text-white mb-2 tracking-tight">
+              <h1
+                data-testid="text-welcome"
+                className="text-3xl font-bold text-white mb-2 tracking-tight"
+              >
                 Welcome back, {getUserDisplayName(user)}
               </h1>
-              <p className="text-slate-400 text-sm">Select a project to continue building or start something new.</p>
+              <p className="text-slate-400 text-sm">
+                Select a project to continue building or start something new.
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <Button 
+            <Button
               variant="outline"
               data-testid="button-executive"
               className="bg-[#18181b] border-indigo-500/30 text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10"
@@ -123,16 +143,18 @@ export default function Dashboard() {
               <Building2 size={16} className="mr-2" />
               C-Level Dashboard
             </Button>
-            <Button 
+            <Button
               variant="outline"
               data-testid="button-logout"
               className="bg-transparent border-[#27272a] text-slate-300 hover:text-white hover:bg-white/5"
-              onClick={() => { window.location.href = "/api/logout"; }}
+              onClick={() => {
+                window.location.href = "/api/logout";
+              }}
             >
-                <LogOut size={16} className="mr-2" />
-                Sign Out
-              </Button>
-            <Button 
+              <LogOut size={16} className="mr-2" />
+              Sign Out
+            </Button>
+            <Button
               data-testid="button-create-project"
               className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-full px-6 shadow-[0_0_20px_rgba(79,70,229,0.3)]"
               onClick={() => setShowCreateForm(true)}
@@ -146,9 +168,9 @@ export default function Dashboard() {
         <div className="flex gap-4 mb-8">
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
-            <Input 
+            <Input
               data-testid="input-search"
-              placeholder="Search projects..." 
+              placeholder="Search projects..."
               className="w-full bg-[#18181b] border-[#27272a] text-white pl-10 rounded-xl focus-visible:ring-indigo-500"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -161,38 +183,50 @@ export default function Dashboard() {
             <form onSubmit={handleCreateProject} className="space-y-4">
               <h3 className="text-lg font-semibold text-white">Create New Project</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Input 
+                <Input
                   data-testid="input-project-name"
-                  placeholder="Project name" 
+                  placeholder="Project name"
                   className="bg-black/40 border-[#27272a] text-white"
                   value={newProject.name}
-                  onChange={(e) => setNewProject(prev => ({ ...prev, name: e.target.value }))}
+                  onChange={(e) => setNewProject((prev) => ({ ...prev, name: e.target.value }))}
                   required
                 />
-                <select 
+                <select
                   data-testid="select-project-type"
                   className="bg-black/40 border border-[#27272a] text-white rounded-md px-3 py-2"
                   value={newProject.type}
-                  onChange={(e) => setNewProject(prev => ({ ...prev, type: e.target.value }))}
+                  onChange={(e) => setNewProject((prev) => ({ ...prev, type: e.target.value }))}
                 >
                   <option value="Web App">Web App</option>
                   <option value="Mobile App">Mobile App</option>
                   <option value="Backend API">Backend API</option>
                 </select>
               </div>
-              <Input 
+              <Input
                 data-testid="input-project-description"
-                placeholder="Project description" 
+                placeholder="Project description"
                 className="bg-black/40 border-[#27272a] text-white"
                 value={newProject.description}
-                onChange={(e) => setNewProject(prev => ({ ...prev, description: e.target.value }))}
+                onChange={(e) =>
+                  setNewProject((prev) => ({ ...prev, description: e.target.value }))
+                }
                 required
               />
               <div className="flex gap-3">
-                <Button type="submit" data-testid="button-submit-project" className="bg-indigo-600 hover:bg-indigo-700 text-white" disabled={createMutation.isPending}>
+                <Button
+                  type="submit"
+                  data-testid="button-submit-project"
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white"
+                  disabled={createMutation.isPending}
+                >
                   {createMutation.isPending ? "Creating..." : "Create Project"}
                 </Button>
-                <Button type="button" variant="outline" className="border-[#27272a] text-slate-300" onClick={() => setShowCreateForm(false)}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="border-[#27272a] text-slate-300"
+                  onClick={() => setShowCreateForm(false)}
+                >
                   Cancel
                 </Button>
               </div>
@@ -206,7 +240,7 @@ export default function Dashboard() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Card 
+            <Card
               data-testid="card-create-new"
               className="bg-[#18181b]/50 border-dashed border-2 border-[#27272a] hover:border-indigo-500/50 hover:bg-[#18181b] transition-all cursor-pointer group flex flex-col items-center justify-center min-h-[200px]"
               onClick={() => setShowCreateForm(true)}
@@ -219,8 +253,8 @@ export default function Dashboard() {
             </Card>
 
             {filteredProjects.map((project) => (
-              <Card 
-                key={project.id} 
+              <Card
+                key={project.id}
                 data-testid={`card-project-${project.id}`}
                 className="bg-[#18181b] border-[#27272a] hover:border-[#3f3f46] transition-all cursor-pointer group flex flex-col min-h-[200px]"
                 onClick={() => setLocation(`/editor/${project.id}`)}
@@ -231,7 +265,9 @@ export default function Dashboard() {
                       {typeIcons[project.type] || <Layers className="text-indigo-400" />}
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className={`text-[10px] px-2 py-1 rounded-full border ${statusColors[project.status] || statusColors["Planning"]}`}>
+                      <span
+                        className={`text-[10px] px-2 py-1 rounded-full border ${statusColors[project.status] || statusColors["Planning"]}`}
+                      >
                         {project.status}
                       </span>
                       <button
@@ -246,14 +282,14 @@ export default function Dashboard() {
                       </button>
                     </div>
                   </div>
-                  
+
                   <h3 className="text-lg font-medium text-white mb-2 group-hover:text-indigo-400 transition-colors">
                     {project.name}
                   </h3>
                   <p className="text-sm text-slate-400 line-clamp-2 mb-auto">
                     {project.description}
                   </p>
-                  
+
                   <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/5">
                     <div className="flex items-center text-xs text-slate-500 gap-2">
                       <Clock size={12} />

@@ -46,11 +46,11 @@ rules:
 
 ### Config Fields
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `schema` | string | Default schema for new changes (e.g. `spec-driven`) |
+| Field     | Type   | Description                                                        |
+| --------- | ------ | ------------------------------------------------------------------ |
+| `schema`  | string | Default schema for new changes (e.g. `spec-driven`)                |
 | `context` | string | Project context injected into all artifact instructions (max 50KB) |
-| `rules` | object | Per-artifact rules, keyed by artifact ID |
+| `rules`   | object | Per-artifact rules, keyed by artifact ID                           |
 
 ### How It Works
 
@@ -79,10 +79,10 @@ openspec config path          # Show config file location
 
 ### Common Settings
 
-| Setting | Example |
-|---------|---------|
-| Disable telemetry | `openspec config set telemetry.enabled false` |
-| Set user name | `openspec config set user.name "My Name" --string` |
+| Setting           | Example                                            |
+| ----------------- | -------------------------------------------------- |
+| Disable telemetry | `openspec config set telemetry.enabled false`      |
+| Set user name     | `openspec config set user.name "My Name" --string` |
 
 ## Outputs
 
