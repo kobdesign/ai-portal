@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { FolderKanban, Plus, Search, Layers, Clock, ArrowRight, Activity, Smartphone, Server, FileCode2, LogOut, UserCircle } from "lucide-react";
+import { FolderKanban, Plus, Search, Layers, Clock, ArrowRight, Activity, Smartphone, Server, FileCode2, LogOut, UserCircle, Building2 } from "lucide-react";
 
 export default function Dashboard() {
   const [, setLocation] = useLocation();
