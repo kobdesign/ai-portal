@@ -3,6 +3,7 @@
 AI Portal มี ChatPanel UI ที่ทำงานด้วย mock data (setTimeout 4s → hardcoded Thai response) ต้องเชื่อมกับ Claude API จริงเพื่อให้เป็น AI IDE ที่ใช้งานได้
 
 **Current Architecture:**
+
 - `ChatPanel.tsx` — self-contained component, ไม่มี API calls, mock ทุกอย่าง
 - `server/routes.ts` — มีแค่ Project CRUD, ไม่มี chat endpoint
 - `Home.tsx` — render panels อิสระ, ไม่มี shared context ระหว่าง panels
@@ -11,12 +12,14 @@ AI Portal มี ChatPanel UI ที่ทำงานด้วย mock data (se
 ## Goals / Non-Goals
 
 **Goals:**
+
 - ผู้ใช้ chat กับ Claude ได้จริงผ่าน ChatPanel
 - Response แสดงแบบ streaming (real-time, ไม่ต้องรอ response ทั้งหมด)
 - ChatPanel รับ context จาก panels อื่น (active spec, lifecycle phase)
 - รองรับ conversation history (multi-turn)
 
 **Non-Goals:**
+
 - ยังไม่ทำ code generation/execution (Sprint ถัดไป)
 - ยังไม่เก็บ chat history ลง database (ใช้ in-memory state ก่อน)
 - ยังไม่ทำ multi-model switching จริง (เริ่มที่ Claude ก่อน)
@@ -43,6 +46,7 @@ AI Portal มี ChatPanel UI ที่ทำงานด้วย mock data (se
 ### 4. System Prompt: Context-Aware
 
 ส่ง system prompt ที่ประกอบด้วย:
+
 - Role: "Enterprise AI Development Assistant"
 - Current project info (name, type)
 - Active spec reference (ถ้ามี)

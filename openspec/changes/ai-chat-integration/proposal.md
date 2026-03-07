@@ -14,10 +14,12 @@ ChatPanel ปัจจุบันใช้ mock data ทั้งหมด — 
 ## Capabilities
 
 ### New Capabilities
+
 - `ai-chat-backend`: Backend API endpoint สำหรับ chat กับ Claude API พร้อม streaming, context injection, และ conversation history
 - `ai-chat-frontend`: Frontend integration ที่เชื่อม ChatPanel กับ backend จริง รองรับ streaming display และ cross-panel context
 
 ### Modified Capabilities
+
 <!-- No existing specs to modify -->
 
 ## Impact
