@@ -74,3 +74,38 @@
 **Context (บริบทองค์กร) → Spec (ความต้องการ) → Lifecycle (สถานะงาน) → Agent (ลงมือทำ)**
 
 โครงสร้างนี้ทำให้คนที่มาสานต่อ (หรือแม้แต่ AI ตัวมันเอง) ไม่หลงทาง รู้ว่ากำลังทำอะไร ถึงไหน และอิงจากเอกสารใดครับ
+
+---
+
+## 🤝 การเปิดให้ Partner หรือลูกค้าใช้งาน (Partner / Client Onboarding)
+*เป้าหมาย: ขยายการใช้งานแพลตฟอร์มให้บริษัทในเครือ, Vendor หรือลูกค้าภายนอกเข้ามาใช้งานร่วมกันได้อย่างปลอดภัย*
+
+หากต้องการนำแพลตฟอร์มนี้ไปให้บริการในรูปแบบ B2B หรือให้ Vendor ภายนอกเข้ามารับงานต่อ สามารถทำได้ผ่านการจัดการ **Multi-tenancy & Partner Portal** โดยมีขั้นตอนดังนี้:
+
+### 1. การแบ่งพื้นที่ทำงาน (Workspace Isolation)
+- **สร้าง Tenant / Workspace ใหม่:** ในฐานะ System Admin ของแพลตฟอร์ม คุณสามารถสร้าง "Workspace" แยกขาดออกจากกันให้แต่ละ Partner ได้เลย
+- **Data Privacy:** ข้อมูลของ Partner A จะไม่รั่วไหลไปหา Partner B (เช่น คู่มือ Knowledge Base, Source Code, หรือ Database Credentials จะถูกแยกจากกัน 100%)
+
+### 2. การกำหนดสิทธิ์เข้าถึง (Role-Based Access Control - RBAC)
+- **ตั้งค่า Role เฉพาะกลุ่ม:** กำหนดสิทธิ์ผู้ใช้ให้เหมาะกับภายนอก เช่น `Vendor Developer`, `Partner PO`, หรือ `External Auditor`
+- **จำกัดสิทธิ์การ Deploy (Maker / Checker):** 
+  - อาจจะอนุญาตให้ Vendor พิมพ์แชทสั่ง AI สร้างฟีเจอร์ได้ (สิทธิ์ Maker)
+  - แต่ **ไม่อนุญาต** ให้ Vendor กดปุ่ม Deploy ขึ้น Production เอง ต้องให้คนขององค์กรคุณ (ผู้ว่าจ้าง) เป็นคนกด Approve เท่านั้น (สิทธิ์ Checker)
+
+### 3. การเชื่อมต่อระบบของ Partner (Federated Integrations)
+- หาก Partner มีระบบของตัวเอง (เช่น มี Internal GitLab หรือ Database ส่วนตัว) สามารถให้ Partner เข้ามาตั้งค่าในเมนู `Integrations` เฉพาะภายใน Workspace ของเขาได้
+- **Bring Your Own Key (BYOK):** Partner สามารถนำ API Key ของ AI Model (เช่น OpenAI, Anthropic) หรือ Cloud Provider มาตั้งค่าเองได้ เพื่อให้การคิดค่าใช้จ่าย (Billing) แยกออกจากงบขององค์กรคุณ
+
+### 4. กระบวนการส่งมอบงานและตรวจสอบ (Handoff & Audit Workflow)
+เมื่อ Partner พัฒนาฟีเจอร์เสร็จสิ้นในวงจร Lifecycle:
+1. Partner จะไม่เห็นปุ่ม Deploy แต่จะเห็นปุ่ม **"Submit for Review"** แทน
+2. ระบบ Governance จะส่งแจ้งเตือนมายังฝั่งคุณ (เจ้าของแพลตฟอร์ม)
+3. ระบบจะสั่ง **AI Security & PDPA Scanner** ตรวจสอบโค้ดที่ Partner เขียนขึ้นมาโดยอัตโนมัติ เพื่อป้องกันช่องโหว่, การฝัง Backdoor, หรือการละเมิดข้อมูลส่วนบุคคล
+4. หากคุณเห็นว่าปลอดภัยและทำงานได้จริงตาม Spec ถึงจะกดยอมรับงานและนำขึ้นระบบต่อไป
+
+### 5. การติดตามการใช้งานและคิดค่าบริการ (Usage & Billing Tracking)
+- แพลตฟอร์มสามารถเพิ่มส่วน `Admin Dashboard` เพื่อดูว่า Partner แต่ละราย:
+  - ใช้ AI Token ไปเท่าไหร่ (LLM Usage)
+  - มี Project Active อยู่กี่ตัว
+  - รันเซิร์ฟเวอร์ Preview ไปกี่ชั่วโมง
+- ข้อมูลเหล่านี้สามารถนำไปทำ Report เพื่อเก็บเงิน Partner (ในโมเดล SaaS/PaaS) หรือทำ Chargeback ภายในเครือบริษัทได้
