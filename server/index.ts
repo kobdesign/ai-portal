@@ -1,3 +1,5 @@
+// Load env vars first (db.ts calls dotenv.config)
+import "./db";
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";

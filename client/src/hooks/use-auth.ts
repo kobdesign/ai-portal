@@ -1,47 +1,71 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import type { User } from "@shared/models/auth";
+import { useState, useEffect, useCallback } from "react";
+import { supabase } from "@/lib/supabase";
+import type { Session, User as SupabaseUser } from "@supabase/supabase-js";
 
-async function fetchUser(): Promise<User | null> {
-  const response = await fetch("/api/auth/user", {
-    credentials: "include",
-  });
-
-  if (response.status === 401) {
-    return null;
-  }
-
-  if (!response.ok) {
-    throw new Error(`${response.status}: ${response.statusText}`);
-  }
-
-  return response.json();
+export interface AuthUser {
+  id: string;
+  email: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  profileImageUrl: string | null;
 }
 
-async function logout(): Promise<void> {
-  window.location.href = "/api/logout";
+function mapSupabaseUser(user: SupabaseUser): AuthUser {
+  const meta = user.user_metadata ?? {};
+  return {
+    id: user.id,
+    email: user.email ?? null,
+    firstName: meta.full_name?.split(" ")[0] ?? meta.name?.split(" ")[0] ?? null,
+    lastName: meta.full_name?.split(" ").slice(1).join(" ") ?? null,
+    profileImageUrl: meta.avatar_url ?? meta.picture ?? null,
+  };
 }
 
 export function useAuth() {
-  const queryClient = useQueryClient();
-  const { data: user, isLoading } = useQuery<User | null>({
-    queryKey: ["/api/auth/user"],
-    queryFn: fetchUser,
-    retry: false,
-    staleTime: 1000 * 60 * 5, // 5 minutes
-  });
+  const [session, setSession] = useState<Session | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const logoutMutation = useMutation({
-    mutationFn: logout,
-    onSuccess: () => {
-      queryClient.setQueryData(["/api/auth/user"], null);
-    },
-  });
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      if (session?.user) setUser(mapSupabaseUser(session.user));
+      setIsLoading(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session);
+        setUser(session?.user ? mapSupabaseUser(session.user) : null);
+        setIsLoading(false);
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const login = useCallback(async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+  }, []);
+
+  const logout = useCallback(async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    setSession(null);
+  }, []);
 
   return {
     user,
+    session,
     isLoading,
-    isAuthenticated: !!user,
-    logout: logoutMutation.mutate,
-    isLoggingOut: logoutMutation.isPending,
+    isAuthenticated: !!session,
+    login,
+    logout,
+    accessToken: session?.access_token ?? null,
   };
 }

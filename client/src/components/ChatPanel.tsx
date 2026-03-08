@@ -3,8 +3,15 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUp, Sparkles, Loader2, StopCircle, ChevronDown, Paperclip, CheckSquare, FolderKanban, Lightbulb, FileText, IterationCcw, Code2 } from "lucide-react";
+import { ArrowUp, Sparkles, Loader2, StopCircle, ChevronDown, ChevronRight, Paperclip, FileText, IterationCcw, Code2, Plus, MessageSquare, Trash2, Upload, BookOpen, Camera } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useConversations } from "@/hooks/useConversations";
+import { MessageContent } from "@/components/chat/MessageContent";
+import { getMockResponse } from "@/components/chat/mockResponses";
+import { useStreamingText } from "@/hooks/useStreamingText";
+import { WelcomeState } from "@/components/chat/WelcomeState";
+import { MessageActions } from "@/components/chat/MessageActions";
 
 interface Message {
   id: string;
@@ -12,26 +19,48 @@ interface Message {
   content: string;
   timestamp: string;
   isGenerating?: boolean;
+  shouldStream?: boolean;
+}
+
+function StreamingMessageContent({ content, shouldStream, onUpdate }: {
+  content: string;
+  shouldStream: boolean;
+  onUpdate?: () => void;
+}) {
+  const { displayedText, isDone } = useStreamingText(content, shouldStream);
+
+  useEffect(() => {
+    if (shouldStream && !isDone && onUpdate) {
+      onUpdate();
+    }
+  }, [displayedText, shouldStream, isDone, onUpdate]);
+
+  return (
+    <>
+      <MessageContent content={displayedText} />
+      {shouldStream && !isDone && (
+        <span className="inline-block w-1.5 h-[18px] bg-indigo-400/80 animate-pulse rounded-sm ml-0.5 -mb-0.5" />
+      )}
+    </>
+  );
 }
 
 export function ChatPanel() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      role: "assistant",
-      content: "สวัสดีครับ! ผมตรวจพบว่าตอนนี้เรากำลังอยู่ในขั้นตอน **Implement (เขียนโค้ด)** ของฟีเจอร์ **FEAT-1: Corporate SSO** โดยอ้างอิง Spec จาก **US-101**\n\nผมได้อ่าน Requirement ที่บอกว่า 'ผู้ใช้สามารถ Login ด้วย Azure AD' เรียบร้อยแล้ว ให้ผมเริ่ม Scaffold UI หรือเขียน Integration Logic ก่อนดีครับ?",
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    }
-  ]);
+  const { conversations, messages, setMessages, newChat, selectConversation, deleteConversation } = useConversations();
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [model, setModel] = useState("Claude 3.5 (Thai Optimized)");
+  const [contextExpanded, setContextExpanded] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  const scrollToBottom = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
   }, [messages]);
 
   const handleSubmit = (e?: React.FormEvent, overrideText?: string) => {
@@ -50,25 +79,27 @@ export function ChatPanel() {
     setInput("");
     setIsGenerating(true);
 
+    const generatingId = (Date.now() + 1).toString();
+    const responseContent = getMockResponse(textToSend);
+
     setTimeout(() => {
-      const generatingId = (Date.now() + 1).toString();
       setMessages(prev => [...prev, {
         id: generatingId,
         role: "assistant",
-        content: "กำลังวิเคราะห์ US-101 Spec และเริ่มเขียน Integration Code กับ Azure AD...",
+        content: "กำลังวิเคราะห์ Spec และ Context...",
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         isGenerating: true
       }]);
 
       setTimeout(() => {
-        setMessages(prev => prev.map(msg => 
-          msg.id === generatingId 
-            ? { ...msg, isGenerating: false, content: "ผมได้เขียนโค้ดสำหรับระบบ SSO เสร็จแล้วครับ! โค้ดถูกเชื่อมโยงกลับไปยัง US-101 และผมได้ปรับสถานะ Task ใน Lifecycle เป็น 'Test' ให้แล้ว\n\nกระบวนการต่อไปคือการทำ Automated Testing ให้ผมรัน Test เลยไหมครับ?" }
+        setMessages(prev => prev.map(msg =>
+          msg.id === generatingId
+            ? { ...msg, isGenerating: false, content: responseContent, shouldStream: true }
             : msg
         ));
         setIsGenerating(false);
-      }, 4000);
-    }, 500);
+      }, 2500);
+    }, 300);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -97,85 +128,138 @@ export function ChatPanel() {
             <DropdownMenuItem onClick={() => setModel("GPT-4o (Enterprise)")}>GPT-4o (Enterprise)</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <span className="text-[10px] text-muted-foreground flex items-center gap-1 bg-muted/30 px-2 py-0.5 rounded">
-          <Code2 size={10} /> Workspace Synced
-        </span>
-      </div>
-
-      {/* Active Context Dashboard */}
-      <div className="bg-[#18181b] border-b border-border/40 px-4 py-2 flex flex-col gap-1.5 shrink-0 shadow-sm z-10">
-        <div className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">Active Context</div>
-        <div className="flex flex-col gap-1.5">
-          <div className="flex items-center gap-2">
-            <Badge variant="outline" className="bg-purple-500/10 text-purple-400 border-purple-500/20 text-[10px] h-5 rounded-sm">
-              <IterationCcw size={10} className="mr-1.5" />
-              Lifecycle: Implement Phase
-            </Badge>
-            <span className="text-xs font-medium text-foreground">FEAT-1: Corporate SSO</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Badge variant="outline" className="bg-sky-500/10 text-sky-400 border-sky-500/20 text-[10px] h-5 rounded-sm">
-              <FileText size={10} className="mr-1.5" />
-              Spec Bound
-            </Badge>
-            <span className="text-xs text-muted-foreground">US-101: Azure AD Login Integration</span>
-          </div>
+        <div className="flex items-center gap-1.5">
+          {conversations.length > 0 && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground hover:text-foreground">
+                  <MessageSquare size={14} />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-64 bg-[#1e1e24] border-[#27272a] max-h-[300px] overflow-y-auto">
+                {conversations.slice(0, 10).map((c) => (
+                  <DropdownMenuItem
+                    key={c.id}
+                    className="flex items-center justify-between gap-2 text-xs"
+                    onClick={() => selectConversation(c.id)}
+                  >
+                    <span className="truncate flex-1">{c.title}</span>
+                    <button
+                      className="text-muted-foreground/50 hover:text-red-400 shrink-0 p-0.5"
+                      onClick={(e) => { e.stopPropagation(); deleteConversation(c.id); }}
+                    >
+                      <Trash2 size={12} />
+                    </button>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7 text-muted-foreground hover:text-foreground"
+            onClick={newChat}
+          >
+            <Plus size={14} />
+          </Button>
+          <span className="text-[10px] text-muted-foreground flex items-center gap-1 bg-muted/30 px-2 py-0.5 rounded">
+            <Code2 size={10} /> Workspace Synced
+          </span>
         </div>
       </div>
 
-      <ScrollArea className="flex-1 p-4" ref={scrollRef}>
-        <div className="space-y-6 pb-4">
-          {messages.map((msg) => (
-            <div 
-              key={msg.id} 
-              className={`flex flex-col max-w-[88%] ${msg.role === 'user' ? 'ml-auto items-end' : 'mr-auto items-start'}`}
-            >
-              <div 
-                className={`p-3.5 rounded-2xl ${
-                  msg.role === 'user' 
-                    ? 'bg-indigo-600 text-white rounded-tr-sm shadow-sm' 
-                    : 'bg-[#18181b] border border-border/40 rounded-tl-sm shadow-sm text-slate-200'
-                }`}
-              >
-                <div className="text-[13px] leading-relaxed whitespace-pre-wrap">
-                  {msg.content}
-                </div>
-                {msg.isGenerating && (
-                  <div className="flex items-center gap-2 mt-3 text-muted-foreground bg-muted/20 p-2 rounded-lg border border-border/20">
-                    <Loader2 size={14} className="animate-spin text-purple-400" />
-                    <span className="text-xs font-medium">กำลังดำเนินการตาม Spec...</span>
-                  </div>
-                )}
-              </div>
-              <span className="text-[10px] text-muted-foreground mt-1.5 px-1">
-                {msg.timestamp}
-              </span>
+      {/* Active Context Dashboard (Collapsible) */}
+      <div className="bg-[#18181b] border-b border-border/40 shrink-0 shadow-sm z-10">
+        <button
+          onClick={() => setContextExpanded(!contextExpanded)}
+          className="w-full px-4 py-1.5 flex items-center gap-1.5 hover:bg-muted/20 transition-colors"
+        >
+          {contextExpanded ? <ChevronDown size={10} className="text-muted-foreground" /> : <ChevronRight size={10} className="text-muted-foreground" />}
+          <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Active Context</span>
+          {!contextExpanded && (
+            <span className="text-[10px] text-muted-foreground ml-1">— FEAT-1: Corporate SSO</span>
+          )}
+        </button>
+        {contextExpanded && (
+          <div className="px-4 pb-2 flex flex-col gap-1.5">
+            <div className="flex items-center gap-2">
+              <Badge variant="outline" className="bg-purple-500/10 text-purple-400 border-purple-500/20 text-[10px] h-5 rounded-sm">
+                <IterationCcw size={10} className="mr-1.5" />
+                Lifecycle: Implement Phase
+              </Badge>
+              <span className="text-xs font-medium text-foreground">FEAT-1: Corporate SSO</span>
             </div>
-          ))}
-        </div>
-      </ScrollArea>
-
-      <div className="p-4 bg-gradient-to-t from-background via-background to-transparent pt-6 border-t border-border/20 shrink-0">
-        
-        {/* Context-Aware Quick Actions */}
-        {!isGenerating && messages.length < 3 && (
-          <div className="flex gap-2 mb-3 overflow-x-auto scrollbar-none pb-1">
-            <button 
-              onClick={() => handleSubmit(undefined, "สร้าง UI สำหรับหน้า Login ตาม US-101")}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-sky-500/30 text-xs text-sky-400 hover:bg-sky-500/10 whitespace-nowrap transition-colors"
-            >
-              <Code2 size={12} />
-              Implement US-101 UI
-            </button>
-            <button 
-              onClick={() => handleSubmit(undefined, "เขียน Logic เชื่อมต่อ Azure AD API")}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50 text-xs text-muted-foreground hover:text-foreground hover:bg-muted whitespace-nowrap transition-colors"
-            >
-              <CheckSquare size={12} className="text-emerald-400" />
-              Write API Logic
-            </button>
+            <div className="flex items-center gap-2">
+              <Badge variant="outline" className="bg-sky-500/10 text-sky-400 border-sky-500/20 text-[10px] h-5 rounded-sm">
+                <FileText size={10} className="mr-1.5" />
+                Spec Bound
+              </Badge>
+              <span className="text-xs text-muted-foreground">US-101: Azure AD Login Integration</span>
+            </div>
           </div>
         )}
+      </div>
+
+      {messages.length === 0 ? (
+        <div className="flex-1">
+          <WelcomeState onSuggestionClick={(text) => handleSubmit(undefined, text)} />
+        </div>
+      ) : (
+        <ScrollArea className="flex-1 p-4" ref={scrollRef}>
+          <div className="space-y-6 pb-4">
+            {messages.map((msg) => (
+              <div
+                key={msg.id}
+                className={`group flex flex-col max-w-[88%] ${msg.role === 'user' ? 'ml-auto items-end' : 'mr-auto items-start'}`}
+              >
+                <div
+                  className={`p-3.5 rounded-2xl ${
+                    msg.role === 'user'
+                      ? 'bg-indigo-600 text-white rounded-tr-sm shadow-sm'
+                      : 'bg-[#18181b] border border-border/40 rounded-tl-sm shadow-sm text-slate-200'
+                  }`}
+                >
+                  {msg.role === 'assistant' ? (
+                    <StreamingMessageContent
+                      content={msg.content}
+                      shouldStream={!!msg.shouldStream}
+                      onUpdate={scrollToBottom}
+                    />
+                  ) : (
+                    <MessageContent content={msg.content} />
+                  )}
+                  {msg.isGenerating && (
+                    <div className="flex items-center gap-2 mt-3 text-muted-foreground bg-muted/20 p-2 rounded-lg border border-border/20">
+                      <Loader2 size={14} className="animate-spin text-purple-400" />
+                      <span className="text-xs font-medium">กำลังดำเนินการตาม Spec...</span>
+                    </div>
+                  )}
+                </div>
+                {msg.role === 'assistant' && !msg.isGenerating && (
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                    <MessageActions
+                      content={msg.content}
+                      onRegenerate={() => {
+                        const userMsg = messages[messages.indexOf(msg) - 1];
+                        if (userMsg?.role === 'user') {
+                          setMessages(prev => prev.filter(m => m.id !== msg.id));
+                          handleSubmit(undefined, userMsg.content);
+                        }
+                      }}
+                    />
+                  </div>
+                )}
+                <span className="text-[10px] text-muted-foreground mt-1.5 px-1">
+                  {msg.timestamp}
+                </span>
+              </div>
+            ))}
+          </div>
+        </ScrollArea>
+      )}
+
+      <div className="p-4 bg-gradient-to-t from-background via-background to-transparent pt-6 border-t border-border/20 shrink-0">
 
         <form onSubmit={handleSubmit} className="relative flex flex-col gap-2">
           <div className="relative w-full flex items-end shadow-sm border border-border/60 rounded-xl bg-[#18181b] focus-within:ring-1 focus-within:ring-indigo-500 focus-within:border-indigo-500 transition-all">
@@ -188,9 +272,30 @@ export function ChatPanel() {
               rows={1}
             />
             <div className="absolute right-2 bottom-2 flex items-center gap-1">
-              <Button type="button" size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground hover:text-foreground rounded-full">
-                <Paperclip size={16} />
-              </Button>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button type="button" size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground hover:text-foreground rounded-full">
+                    <Paperclip size={16} />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent side="top" align="start" className="w-48 p-1 bg-[#1e1e24] border-[#27272a]">
+                  {[
+                    { icon: Upload, label: "Upload File", shortcut: "Coming soon" },
+                    { icon: BookOpen, label: "Knowledge Base", shortcut: "Coming soon" },
+                    { icon: Camera, label: "Screenshot", shortcut: "Coming soon" },
+                  ].map((item) => (
+                    <button
+                      key={item.label}
+                      className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
+                      onClick={() => {}}
+                    >
+                      <item.icon size={14} />
+                      <span className="flex-1 text-left">{item.label}</span>
+                      <span className="text-[10px] text-muted-foreground/50">{item.shortcut}</span>
+                    </button>
+                  ))}
+                </PopoverContent>
+              </Popover>
               {isGenerating ? (
                 <Button 
                   type="button" 

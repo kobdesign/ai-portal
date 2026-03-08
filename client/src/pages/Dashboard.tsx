@@ -127,7 +127,7 @@ export default function Dashboard() {
               variant="outline"
               data-testid="button-logout"
               className="bg-transparent border-[#27272a] text-slate-300 hover:text-white hover:bg-white/5"
-              onClick={() => { window.location.href = "/api/logout"; }}
+              onClick={() => logout()}
             >
                 <LogOut size={16} className="mr-2" />
                 Sign Out

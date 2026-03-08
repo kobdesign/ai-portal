@@ -12,14 +12,32 @@ import GlobalTopology from "@/pages/GlobalTopology";
 import { useAuth } from "@/hooks/use-auth";
 import { useEffect } from "react";
 
+function AuthCallback() {
+  const [, setLocation] = useLocation();
+  const { isAuthenticated, isLoading } = useAuth();
+
+  useEffect(() => {
+    if (!isLoading) {
+      setLocation(isAuthenticated ? "/" : "/login");
+    }
+  }, [isAuthenticated, isLoading, setLocation]);
+
+  return (
+    <div className="min-h-screen bg-[#111113] flex items-center justify-center">
+      <div className="w-8 h-8 border-2 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin"></div>
+    </div>
+  );
+}
+
 function ProtectedRoute({ component: Component, ...rest }: any) {
-  const { user, isLoading, isAuthenticated } = useAuth();
+  const [, setLocation] = useLocation();
+  const { isLoading, isAuthenticated } = useAuth();
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      window.location.href = "/api/login";
+      setLocation("/login");
     }
-  }, [isAuthenticated, isLoading]);
+  }, [isAuthenticated, isLoading, setLocation]);
 
   if (isLoading) {
     return (
@@ -42,6 +60,7 @@ function Router() {
       <Route path="/login">
         {isAuthenticated ? <Dashboard /> : <Login />}
       </Route>
+      <Route path="/auth/callback" component={AuthCallback} />
       <Route path="/" component={() => {
         if (isLoading) {
           return (
