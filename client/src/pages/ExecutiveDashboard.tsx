@@ -25,7 +25,7 @@ export function ExecutiveDashboard() {
       <div className="p-6 border-b border-[#27272a] bg-[#18181b] shrink-0">
         <h1 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
           <Building2 className="text-indigo-500" />
-          Enterprise Command Portal
+          Enterprise Command Center
           <Badge className="bg-indigo-500/20 text-indigo-400 border-indigo-500/30 hover:bg-indigo-500/20">C-Level View</Badge>
         </h1>
         <p className="text-slate-400 text-sm">
