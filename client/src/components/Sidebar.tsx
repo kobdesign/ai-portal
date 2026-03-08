@@ -20,7 +20,7 @@ export function Sidebar() {
               <polyline points="2 12 12 17 22 12" />
             </svg>
           </div>
-          <span>LovableClone</span>
+          <span>AI Portal</span>
         </div>
         <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground">
           <PanelLeftClose size={18} />
