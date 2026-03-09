@@ -9,6 +9,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import type { Project } from "@shared/schema";
+import { formatTimeAgo, getUserDisplayName } from "@/lib/dashboard-utils";
 
 const typeIcons: Record<string, any> = {
   "Web App": <Layers className="text-indigo-400" />,
@@ -22,28 +23,6 @@ const statusColors: Record<string, string> = {
   "Planning": "bg-slate-500/10 text-slate-400 border-slate-500/20",
   "Maintained": "bg-purple-500/10 text-purple-400 border-purple-500/20",
 };
-
-function formatTimeAgo(date: string | Date) {
-  const now = new Date();
-  const d = new Date(date);
-  const diffMs = now.getTime() - d.getTime();
-  const diffMins = Math.floor(diffMs / 60000);
-  const diffHrs = Math.floor(diffMins / 60);
-  const diffDays = Math.floor(diffHrs / 24);
-
-  if (diffMins < 1) return "just now";
-  if (diffMins < 60) return `${diffMins} min ago`;
-  if (diffHrs < 24) return `${diffHrs} hr ago`;
-  if (diffDays < 7) return `${diffDays} days ago`;
-  return d.toLocaleDateString("th-TH");
-}
-
-function getUserDisplayName(user: any) {
-  if (user?.firstName && user?.lastName) return `${user.firstName} ${user.lastName}`;
-  if (user?.firstName) return user.firstName;
-  if (user?.email) return user.email;
-  return "Developer";
-}
 
 export default function Dashboard() {
   const [, setLocation] = useLocation();
