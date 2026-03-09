@@ -49,3 +49,4 @@ integrations = ["javascript_log_in_with_replit:2.0.0"]
 [userenv.shared]
 VITE_SUPABASE_URL = "https://kkcbvqurgzgfearqctwy.supabase.co"
 VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtrY2J2cXVyZ3pnZmVhcnFjdHd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5Nzc2MDEsImV4cCI6MjA4ODU1MzYwMX0.jQtPBQXcjJOzPa4fFLe3gpqIUm7dgPubEBByNtaQaYY"
+SUPABASE_DATABASE_URL = "postgresql://postgres:buBVJ2lQryU2radr@db.kkcbvqurgzgfearqctwy.supabase.co:5432/postgres"

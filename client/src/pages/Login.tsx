@@ -46,7 +46,7 @@ export default function Login() {
 
             <div className="flex items-center justify-center gap-3 text-xs text-slate-400">
               <span className="flex items-center gap-1.5 bg-white/5 px-3 py-1.5 rounded-full border border-white/5">
-                <ShieldCheck size={12} className="text-emerald-400" /> Supabase Auth
+                <ShieldCheck size={12} className="text-emerald-400" /> Secure Auth
               </span>
               <span className="flex items-center gap-1.5 bg-white/5 px-3 py-1.5 rounded-full border border-white/5">
                 <ShieldCheck size={12} className="text-sky-400" /> Google OAuth
